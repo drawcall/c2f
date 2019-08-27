@@ -1,4 +1,8 @@
 /package-lock.json
 /node_modules/
 /build/
+source/node_modules/
+source/package-lock.json
+source/.DS_Store
 .DS_Store
+source/node_modules/
