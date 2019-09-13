@@ -1,18 +1,20 @@
 import React from "react";
 import { Layout } from "antd";
+import Logo from "./components/logo";
 import OperatingArea from "./components/operating-area";
 
 import "./App.css";
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 
 function App() {
   return (
     <div className="App">
       <Layout>
-        <Header>Header</Header>
-        <Content><OperatingArea/></Content>
-        <Footer>Footer</Footer>
+        <Content>
+        	<Logo/>
+        	<OperatingArea />
+        </Content>
       </Layout>
     </div>
   );

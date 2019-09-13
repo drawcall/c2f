@@ -4,32 +4,62 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.logo{
+  margin: 40px 0 30px 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.logo .title{
+  margin-top: 12px;
+  font-size: 40px;
+  font-family: Ostrich-Black;
+  color: #0073de;
 }
 
-.App-link {
-  color: #61dafb;
+.ant-layout{
+  background: #fff !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@font-face {
+  font-family: 'Ostrich-Black';  
+  src: url('./assets/font/Ostrich Regular.ttf');
+}
+
+.container{
+  width: 95%;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+.code-mirror{
+  margin: 0 8px;
+  text-align: left;
+  
+}
+
+.coder-title{
+  text-align: left;
+  margin-left: 10px;
+  color: #999;
+}
+
+@media screen and (max-height: 760px) {
+  .CodeMirror {
+    height: 400px;
   }
-  to {
-    transform: rotate(360deg);
+}
+
+@media screen and (min-height: 760px) {
+  .CodeMirror {
+    height: 600px;
   }
+}
+
+.btns{
+  margin-top: 30px;
+}
+
+.btns button{
+  width: 130px;
+  margin: 0 20px;
+  border-radius: 0px;
 }

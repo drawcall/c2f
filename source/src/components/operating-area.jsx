@@ -1,45 +1,74 @@
 import React from "react";
-import { Row, Col, Input, Button } from "antd";
-import Converter from "../convert/converter";
-
-const { TextArea } = Input;
+import { Row, Col, Button } from "antd";
+import Coder from "./coder";
+import ResultAlert from "./result-alert";
+import Converter from "../service/convert/converter";
 
 class OperatingArea extends React.Component {
 
+  constructor(props) {
+      super(props);
+      this.state = { cssOptions: {
+         mode: 'css',
+         //theme: 'monokai'
+      }, dartOptions: {
+         mode: 'dart',
+      }, cssVal: '', dartVal: '' };
+  }
+
   async componentDidMount(){
-    const css1 =`
-    background-color: #ccffff;
-    font-size: 12px;
-    `;
+    this.setState({
+      cssVal: `
+      background-color: #e0e0e0; /* grey 300 */
+      width: 320px;
+      height: 240px;
+      font: 900 24px Georgia;
+    `,
+      dartVal:`
+    var container = new Container( // grey box
+  child: new Text(
+    "Hello World",
+    style: new TextStyle(
+      fontSize: 24.0
+      fontWeight: FontWeight.w900,
+      fontFamily: "Georgia",
+    ),
+  ),
+  width: 320.0,
+  height: 240.0,
+  color: Colors.grey[300],
+);
+    `
+    });
 
-    const css2 =`
-    .demo{
-      background-color: #ccffff;
-      font-size: 12px;
-    }
-    `;
+    await Converter.process(this.state.cssVal);
+  }
 
-    await Converter.process(css1);
-    await Converter.process(css2);
+  clearBtnClickHandler(){
+    this.setState({ cssVal: "", dartVal: "" });
   }
 
   render() {
     return (
-      <React.Fragment>
+      <div className="container">
+        <ResultAlert />
         <Row>
           <Col span={12}>
-            <TextArea rows={14} />
+            <div className="coder-title">Css</div>
+            <Coder options={this.state.cssOptions} value={this.state.cssVal} />
           </Col>
 
           <Col span={12}>
-            <TextArea rows={14} />
+            <div className="coder-title">Flutter</div>
+            <Coder options={this.state.dartOptions} value={this.state.dartVal}  />
           </Col>
         </Row>
 
-        <Row>
-          <Button type="primary">Button</Button>
+        <Row className="btns">
+          <Button type="danger" onClick={this.clearBtnClickHandler.bind(this)}>Clear</Button>
+          <Button type="primary">Convert</Button>
         </Row>
-      </React.Fragment>
+      </div>
     );
   }
 }

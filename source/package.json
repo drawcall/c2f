@@ -4,9 +4,11 @@
   "private": true,
   "dependencies": {
     "antd": "^3.20.1",
+    "codemirror": "^5.48.4",
     "es6-promisify": "^6.0.1",
     "postcss": "^7.0.17",
     "react": "^16.8.6",
+    "react-codemirror2": "^6.0.0",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
   },
