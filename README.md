@@ -16,10 +16,13 @@ I am really a bit busy recently if you are interested in this project. I hope th
 
 ## Run and build
 
+### `cd source`
+
+Enter source folder
+
 ### `npm start`
 
 ```shell
-cd source 
 npm i
 
 npm start
