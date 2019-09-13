@@ -1,8 +1,6 @@
 ![](https://raw.githubusercontent.com/flutterkit/c2f/master/logo/c2f.png)
 
-# C2F
-
-C2F can convert css style to flutter style. I believe web developers will like it.
+C2F can convert css style to flutter style. I believe web developers will like it. [https://flutterkit.github.io/c2f/](https://flutterkit.github.io/c2f/)
 
 ## Statement
 
