@@ -4,6 +4,7 @@
 source/node_modules/
 source/package-lock.json
 source/.DS_Store
+source/build/
 .DS_Store
 src/node_modules/
 src/node_modules/
