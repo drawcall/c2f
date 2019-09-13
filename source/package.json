@@ -9,6 +9,7 @@
     "fs-extra": "^8.1.0",
     "postcss": "^7.0.17",
     "react": "^16.8.6",
+    "react-app-rewired": "^2.1.3",
     "react-codemirror2": "^6.0.0",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
@@ -16,9 +17,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && npm run pub",
-    "eject": "react-scripts eject",
     "pub": "node script.js"
   },
+  "homepage":".",
   "eslintConfig": {
     "extends": "react-app"
   },
