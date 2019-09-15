@@ -9,7 +9,8 @@ require('codemirror/mode/dart/dart.js');
 
 class Coder extends React.Component {
 
-  componentDidMount(){
+  onChange(editor, data, value) {
+    this.props.onChange && this.props.onChange(value);
   }
 
   render() {
@@ -18,14 +19,10 @@ class Coder extends React.Component {
         value={this.props.value}
         options={Object.assign({
           theme: 'material',
+          tabSize: 2,
           lineNumbers: true
         }, this.props.options)}
-        onBeforeChange={(editor, data, value) => {
-          this.setState({value});
-        }}
-        onChange={(editor, value) => {
-          console.log('controlled', {value});
-        }}
+        onChange={this.onChange.bind(this)}
       />
     );
   }

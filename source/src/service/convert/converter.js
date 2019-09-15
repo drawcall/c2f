@@ -1,24 +1,15 @@
 import postcss from "postcss";
-import { promisify } from "es6-promisify";
+import parseCss from "./css/parse";
+import repairCss from "./css/repair";
+import parseFlutter from "./flutter/parse";
 
-export default {
-  async process(css) {
-    const result = await postcss([]).process(css);
+const convert2Flutter = async(css)=> {
+    const ast = await postcss([]).process(css);
+    let result = await parseCss(ast.root);
+    result = repairCss(result);
 
-    const root = result.root;
-    if (!root) return;
-    console.log(result, root);
-
-    return new Promise(function(resolve, reject) {
-      root.walkRules(rule => {
-        console.log(rule.selector);
-
-        rule.walkDecls(decl => {
-          console.log(decl.prop + " = " + decl.value);
-        });
-
-        // resolve(value);
-      });
-    });
-  }
+    const flutterStyle = parseFlutter(result);
+    return flutterStyle;
 };
+
+export default convert2Flutter;
