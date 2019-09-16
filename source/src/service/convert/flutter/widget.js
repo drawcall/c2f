@@ -1,4 +1,5 @@
-import { CONTAINER, TEXT, CHILDREN, CHILD, CLASS, PROP, CENTER } from "./template";
+import mapping from "./mapping";
+import { CONTAINER, TEXT, CHILDREN,END, TAB, CHILD, CLASS, PROP, CENTER } from "./template";
 
 class Widget {
 	constructor(type){
@@ -14,39 +15,64 @@ class Widget {
 				this.template = TEXT;
 				break;
 		}
+
+		this.code = this.template;
 	}
 
-	addChild(childWidget){
-		this.children.push(childWidget);
+	addChild(child){
+		if(this.children.indexOf(child)<0) 
+			this.children.push(child);
 	}
 
-	prop(key, val){
+	prop(okey, oval){
+		let {key, val} = mapping(okey, oval);
 		if(!key) return;
-		
-		const prop = `${key}: ${val},
-  ${PROP}`;
-		this.template = this.template.replace(PROP, prop);
+
+		const prop = `
+  ${key}: ${val},
+  ${PROP}`.trim();
+		this.updateCode(PROP, prop);
 	}
 
-	assemble(){
+	toCode(){
+		if(this.children.length == 1){
+			const child = this.children[0];
+			child.addTabSpace();
+			child.clearTrashTags();
+
+			const childCode = `child: ${child}`;
+			this.updateCode(CHILD, childCode);
+		}
+
 		for(let i=0; i<this.children; i++){
 			
 		}
 
-		return this.normalize(this.template);
+		return this.clearTrashTags();
 	}
 
-	normalize(template){
-		return template
+	clearTrashTags(){
+		return this.code
 			.replace(new RegExp(CHILDREN, "g"), "")
 			.replace(new RegExp(CHILD, "g"), "")
 			.replace(new RegExp(CLASS, "g"), "")
 			.replace(new RegExp(PROP, "g"), "")
+			.replace(new RegExp(END, "g"), "")
 			.replace(new RegExp(/  \n/, "ig"), "");
 	}
 
+	updateCode(tag, tagVal){
+		this.code = this.code.replace(tag, tagVal);
+	}
+
+	addTabSpace(tag, tagVal){
+		this.code = this.code
+			.replace(new RegExp(TAB, "ig"), `${TAB}${TAB}`)
+			.replace(new RegExp(END, "ig"), `${TAB}`);
+	}
+
 	toString(){
-		return this.template;
+		return this.code;
 	}
 }
 

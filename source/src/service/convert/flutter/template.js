@@ -3,27 +3,31 @@ const PROP = "<- prop ->";
 const CLASS = "<- class ->";
 const CHILD = "<- child ->";
 const CHILDREN = "<- children ->";
+const TAB = "  ";
+const END = "<- end ->";
 
 const CONTAINER = `
 new Container( 
-  ${CHILDREN}
-  ${PROP}
-),
+${TAB}${CHILDREN}
+${TAB}${CHILD}
+${TAB}${PROP}
+${END}),
 `.trim();
 
 const TEXT = `
 new Text(
-  "Hello World",
-  style: new TextStyle(
-    ${PROP}
-  ),
-),
+${TAB}"Hello World",
+${TAB}style: new TextStyle(
+${TAB}${TAB}${PROP}
+${TAB}),
+${END}),
 `.trim();
 
 const CENTER = `
 new Center(
-  child:  ${TEXT},
-  ),
+${TAB}${CHILDREN}
+${TAB}${CHILD}
+${END}),
 `.trim();
 
-export { CONTAINER, TEXT, CHILDREN, CHILD, CLASS, PROP, CENTER };
+export { CONTAINER, TEXT, CHILDREN, CHILD, CLASS, PROP, CENTER, TAB, END };

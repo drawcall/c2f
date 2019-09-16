@@ -1,24 +1,40 @@
 import postcss from "postcss";
+import clone from "lodash/clone";
+import shorthand2Expansion from "./shorthand";
 
-const rule = {
-    "border": ["border-width","border-style","border-color"],
-    "font": ["font-style","font-variant" ,"font-weight","font-size"]
-}
+const repairCss = (cssResult) => {
+    if(!cssResult) return;
 
-const repairCss = (result) =>{
-    if(!result) return;
-
-    for (let i = 0; i < result.length; i++) {
-        const style = result[i];
+    let result = clone(cssResult);
+    for (let i = 0; i < cssResult.length; i++) {
+        const style = cssResult[i];
         if (style.valueList.length > 1) {
-            switch(style.key){
-                  case "border":
-                        break;
+            const shobj = shorthand2Expansion(style.key, style.valueList);
+            if(shobj){
+                appendNewStyle(shobj, result);
+                removeFromeArray(style.key, result);
             }
         }
     }
 
     return result;
 };
+
+const removeFromeArray = (key, arr)=>{
+    for(let i=arr.length-1;i>=0;i--){
+        if(arr[i]["key"]==key){
+            arr.splice(i, 1);
+        }
+    }
+}
+
+const appendNewStyle = (newObj, arr)=>{
+    for(let key in newObj){
+        arr.push({
+            key,
+            val: newObj[key]
+        }); 
+    }
+}
 
 export default repairCss;

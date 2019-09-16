@@ -8,6 +8,7 @@ const convert2Flutter = async(css)=> {
     let result = await parseCss(ast.root);
     result = repairCss(result);
 
+    console.log(result);
     const flutterStyle = parseFlutter(result);
     return flutterStyle;
 };
