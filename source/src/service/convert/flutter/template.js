@@ -1,32 +1,45 @@
-const PROP = "<- prop ->";
-const CLASS = "<- class ->";
-const CHILD = "<- child ->";
-const CHILDREN = "<- children ->";
-const TAB = "  ";
-const END = "<- end ->";
+const PROP = "<-prop->";
+const CLASS = "<-class->";
+const CHILD = "<-child->";
+const CHILDREN = "<-children->";
+const TAB = "<-tab->";
+const END = "<-end->";
+const REAL_SPACE = "  ";
 
 const CONTAINER = `
 new Container( 
-${TAB}${CHILDREN}
-${TAB}${CHILD}
-${TAB}${PROP}
+  ${CHILDREN}
+  ${CHILD}
+  ${PROP}
 ${END}),
 `.trim();
 
 const TEXT = `
 new Text(
-${TAB}"Hello World",
-${TAB}style: new TextStyle(
-${TAB}${TAB}${PROP}
-${TAB}),
+  "Hello World",
+  style: new TextStyle(
+    ${PROP}
+  ),
 ${END}),
 `.trim();
 
 const CENTER = `
 new Center(
-${TAB}${CHILDREN}
-${TAB}${CHILD}
+  ${CHILDREN}
+  ${CHILD}
+  ${PROP}
 ${END}),
 `.trim();
 
-export { CONTAINER, TEXT, CHILDREN, CHILD, CLASS, PROP, CENTER, TAB, END };
+export {
+  CONTAINER,
+  TEXT,
+  CHILDREN,
+  CHILD,
+  CLASS,
+  PROP,
+  CENTER,
+  TAB,
+  REAL_SPACE,
+  END
+};

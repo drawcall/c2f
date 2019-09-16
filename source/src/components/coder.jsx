@@ -1,5 +1,5 @@
 import React from "react";
-import { Controlled as CodeMirror } from "react-codemirror2";
+import { UnControlled as CodeMirror } from "react-codemirror2";
 
 require("codemirror/lib/codemirror.css");
 require("codemirror/theme/material.css");

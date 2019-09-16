@@ -8,7 +8,7 @@ import {
   CHILD,
   CLASS,
   PROP,
-  CENTER
+  REAL_SPACE
 } from "./template";
 
 class Widget {
@@ -42,22 +42,20 @@ class Widget {
 
     let propVal;
     if (this.type === "text") {
-      propVal = `
-${TAB}${TAB}${key}: ${val},
+      propVal = `${key}: ${val},
 ${TAB}${TAB}${PROP}`.trim();
     } else {
-      propVal = `
-${TAB}${key}: ${val},
+      propVal = `${key}: ${val},
 ${TAB}${PROP}`.trim();
     }
 
-    this.updateCode(PROP, propVal);
+    this.updateCode(`${PROP}`, propVal);
   }
 
   toCode() {
     if (this.children.length === 1) {
       const child = this.children[0];
-      child.addTabSpace();
+      child.addSpaceTab();
       child.clearTrashTags();
 
       const childCode = `child: ${child}`;
@@ -69,24 +67,41 @@ ${TAB}${PROP}`.trim();
     return this.clearTrashTags();
   }
 
+  updateCode(tag, tagVal) {
+    this.code = this.code.replace(tag, tagVal);
+  }
+
+  addSpaceTab() {
+    const codeArr = this.code.split(/\n/g);
+    codeArr.forEach((line, index) => {
+      if (index !== 0) codeArr[index] = TAB + line;
+    });
+    this.code = codeArr.join("\n");
+  }
+  
   clearTrashTags() {
-    return this.code
+    this.code = this.code
       .replace(new RegExp(CHILDREN, "g"), "")
       .replace(new RegExp(CHILD, "g"), "")
       .replace(new RegExp(CLASS, "g"), "")
       .replace(new RegExp(PROP, "g"), "")
       .replace(new RegExp(END, "g"), "")
-      .replace(new RegExp(/  \n/, "ig"), "");
+      .replace(new RegExp(TAB, "g"), REAL_SPACE);
+
+    this.clearBlankLine();
+    return this.code;
   }
 
-  updateCode(tag, tagVal) {
-    this.code = this.code.replace(tag, tagVal);
-  }
-
-  addTabSpace(tag, tagVal) {
-    this.code = this.code
-      .replace(new RegExp(TAB, "ig"), `${TAB}${TAB}`)
-      .replace(new RegExp(END, "ig"), `${TAB}`);
+  clearBlankLine() {
+    const codeArr = this.code.split(/\n/g);
+    for (let i = codeArr.length - 1; i >= 0; i--) {
+      let line = codeArr[i];
+      line = line.trim();
+      if (!line) {
+        codeArr.splice(i, 1);
+      }
+    }
+    this.code = codeArr.join("\n");
   }
 
   toString() {
