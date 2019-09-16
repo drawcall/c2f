@@ -3,9 +3,7 @@ import {
   CONTAINER,
   TEXT,
   CHILDREN,
-  END,
   TAB,
-  CHILD,
   CLASS,
   PROP,
   REAL_SPACE
@@ -29,83 +27,103 @@ class Widget {
         this.template = CONTAINER;
     }
 
-    this.code = this.template;
+    this.codeString = "";
+    this.codeLines = this.template.split(/\n/g);
   }
 
   addChild(child) {
-    if (this.children.indexOf(child) < 0) this.children.push(child);
+    if (this.children.indexOf(child) < 0) {
+      this.children.push(child);
+    }
   }
 
-  prop(okey, oval) {
+  setProp(okey, oval) {
     let { key, val } = mapping(okey, oval);
     if (!key) return;
 
     let propVal;
     if (this.type === "text") {
-      propVal = `${key}: ${val},
-${TAB}${TAB}${PROP}`.trim();
+      propVal = `    ${key}: ${val}, `;
     } else {
-      propVal = `${key}: ${val},
-${TAB}${PROP}`.trim();
+      propVal = `  ${key}: ${val},`;
     }
 
-    this.updateCode(`${PROP}`, propVal);
+    this.insertPropToCodeLines(propVal);
   }
 
-  toCode() {
-    if (this.children.length === 1) {
-      const child = this.children[0];
-      child.addSpaceTab();
-      child.clearTrashTags();
-
-      const childCode = `child: ${child}`;
-      this.updateCode(CHILD, childCode);
+  insertPropToCodeLines(propVal) {
+    const index = this.getPseudoTagIndex(PROP);
+    if (index > 0) {
+      this.codeLines.splice(index, 0, propVal);
+      this.mergeToCodeString();
     }
-
-    for (let i = 0; i < this.children; i++) {}
-
-    return this.clearTrashTags();
   }
 
-  updateCode(tag, tagVal) {
-    this.code = this.code.replace(tag, tagVal);
+  getPseudoTagIndex(tagName) {
+    for (let i = 0; i < this.codeLines.length; i++) {
+      const line = this.codeLines[i];
+      if (line.indexOf(tagName) > -1) {
+        return i;
+      }
+    }
+    return 0;
   }
 
-  addSpaceTab() {
-    const codeArr = this.code.split(/\n/g);
-    codeArr.forEach((line, index) => {
-      if (index !== 0) codeArr[index] = TAB + line;
+  addSpaceEveryLine() {
+    this.codeLines.forEach((line, index) => {
+      if (index !== 0) this.codeLines[index] = TAB + line;
     });
-    this.code = codeArr.join("\n");
   }
-  
-  clearTrashTags() {
-    this.code = this.code
+
+  mergeToCodeString() {
+    this.codeString = this.codeLines.join("\n");
+  }
+
+  clearAllPseudoTags() {
+    this.codeString = this.codeString
       .replace(new RegExp(CHILDREN, "g"), "")
-      .replace(new RegExp(CHILD, "g"), "")
       .replace(new RegExp(CLASS, "g"), "")
       .replace(new RegExp(PROP, "g"), "")
-      .replace(new RegExp(END, "g"), "")
       .replace(new RegExp(TAB, "g"), REAL_SPACE);
-
-    this.clearBlankLine();
-    return this.code;
   }
 
-  clearBlankLine() {
-    const codeArr = this.code.split(/\n/g);
+  clearBlankLines() {
+    const codeArr = this.codeString.split(/\n/g);
     for (let i = codeArr.length - 1; i >= 0; i--) {
-      let line = codeArr[i];
-      line = line.trim();
+      const line = codeArr[i].trim();
       if (!line) {
         codeArr.splice(i, 1);
       }
     }
-    this.code = codeArr.join("\n");
+
+    this.codeString = codeArr.join("\n");
+  }
+
+  replaceChildren(child) {
+    for (let i = 0; i < this.codeLines.length; i++) {
+      const line = this.codeLines[i];
+      if (line.indexOf(CHILDREN) > -1) {
+        this.codeLines[i] = line.replace(CHILDREN, `child: ${child}`);
+      }
+    }
   }
 
   toString() {
-    return this.code;
+    if (this.children.length > 0) {
+      if (this.children.length === 1) {
+        const child = this.children[0];
+        child.addSpaceEveryLine();
+        this.replaceChildren(`child: ${child.toString()}`);
+      } else {
+        for (let i = 0; i < this.children; i++) {}
+      }
+    }
+
+    // merge code string
+    this.mergeToCodeString();
+    this.clearAllPseudoTags();
+    this.clearBlankLines();
+    return this.codeString;
   }
 }
 
