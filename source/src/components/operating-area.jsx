@@ -5,24 +5,23 @@ import ResultAlert from "./result-alert";
 import convert2Flutter from "../service/convert/converter";
 
 class OperatingArea extends React.Component {
-
   constructor(props) {
-      super(props);
+    super(props);
 
-      this.cssOptions = {
-        mode: "css",
-        //theme: 'monokai'
-      };
+    this.cssOptions = {
+      mode: "css"
+      //theme: 'monokai'
+    };
 
-      this.dartOptions = {
-        mode: "dart"
-      };
+    this.dartOptions = {
+      mode: "dart"
+    };
 
-      this.cssVal = "";
-      this.dartVal = "";
+    this.cssVal = "";
+    this.dartVal = "";
   }
 
-  async componentDidMount(){
+  async componentDidMount() {
     this.cssVal = `
 background-color: #e0e0e0;
 width: 320px;
@@ -34,24 +33,24 @@ font: 900 24px Georgia;
     await this.convertAndUpdateDartCoder();
   }
 
-  clearBtnClickHandler(e){
+  clearBtnClickHandler(e) {
     this.setState({ cssVal: "", dartVal: "" });
   }
 
-  async convertBtnClickHandler(e){
+  async convertBtnClickHandler(e) {
     await this.convertAndUpdateDartCoder();
   }
 
-  codeChangeHadler(value){
+  codeChangeHadler(value) {
     this.cssVal = value;
   }
 
-  async convertAndUpdateDartCoder(){
+  async convertAndUpdateDartCoder() {
     const result = await convert2Flutter(this.cssVal);
     this.updateDartCoder(result);
   }
 
-  updateDartCoder(val){
+  updateDartCoder(val) {
     this.dartVal = val;
     this.setState({});
   }
@@ -63,19 +62,29 @@ font: 900 24px Georgia;
         <Row>
           <Col span={12}>
             <div className="coder-title">Css</div>
-            <Coder options={this.cssOptions} value={this.cssVal} 
-            onChange={this.codeChangeHadler.bind(this)} />
+            <Coder
+              options={this.cssOptions}
+              value={this.cssVal}
+              onChange={this.codeChangeHadler.bind(this)}
+            />
           </Col>
 
           <Col span={12}>
             <div className="coder-title">Flutter</div>
-            <Coder options={this.dartOptions} value={this.dartVal}  />
+            <Coder options={this.dartOptions} value={this.dartVal} />
           </Col>
         </Row>
 
         <Row className="btns">
-          <Button type="danger" onClick={this.clearBtnClickHandler.bind(this)}>Clear</Button>
-          <Button type="primary" onClick={this.convertBtnClickHandler.bind(this)}>Convert</Button>
+          <Button type="danger" onClick={this.clearBtnClickHandler.bind(this)}>
+            Clear
+          </Button>
+          <Button
+            type="primary"
+            onClick={this.convertBtnClickHandler.bind(this)}
+          >
+            Convert
+          </Button>
         </Row>
       </div>
     );

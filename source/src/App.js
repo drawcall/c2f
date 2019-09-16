@@ -12,8 +12,8 @@ function App() {
     <div className="App">
       <Layout>
         <Content>
-        	<Logo/>
-        	<OperatingArea />
+          <Logo />
+          <OperatingArea />
         </Content>
       </Layout>
     </div>

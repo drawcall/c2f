@@ -1,4 +1,3 @@
-
 const PROP = "<- prop ->";
 const CLASS = "<- class ->";
 const CHILD = "<- child ->";
