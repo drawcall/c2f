@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/flutterkit/c2f/master/logo/c2f.png)
 
-C2F can convert css style to flutter style. I believe web developers will like it. [https://flutterkit.github.io/c2f/](https://flutterkit.github.io/c2f/)
+C2F is an interesting little project. I hope to find a way to convert css styles to flutter styles. I believe many web developers will like it.
 
 ## Statement
 
@@ -9,10 +9,11 @@ For beginners, the flutter style is really hard to remember. You may have to tak
 
 I want to build a website that converts css styles to flutter style online. I think it should help some web developers.
 
-### Thought
-I want to use `postcss` to do a lot of things, we can get a style attribute and value, and then do a big mapping table... If you have a better idea, you can implement it together.
+### NOTE
 
-I am really a bit busy recently if you are interested in this project. I hope that you are involved....
+Although I have already written a part of the code, there are still a lot of styles that I have not converted. I very much hope that you can join and participate, sincerely invite
+
+I want to use `postcss` to do a lot of things, we can get a style attribute and value, and then do a big mapping table... If you have a better idea, you can implement it together.
 
 ## Run and build
 
