@@ -28,13 +28,17 @@ width: 320px;
 height: 240px;
 border:5px solid red;
 font: 900 24px Georgia;
+padding: 2px 10px;
+margin: 3px;
+border-radius: 10px;
+text-decoration: underline wavy red;
     `.trim();
 
     await this.convertAndUpdateDartCoder();
   }
 
   clearBtnClickHandler(e) {
-    this.setState({ cssVal: "", dartVal: "" });
+    this.updateCoder({ cssVal: "", dartVal: "" });
   }
 
   async convertBtnClickHandler(e) {
@@ -46,12 +50,14 @@ font: 900 24px Georgia;
   }
 
   async convertAndUpdateDartCoder() {
-    const result = await convert2Flutter(this.cssVal);
-    this.updateDartCoder(result);
+    const dartVal = await convert2Flutter(this.cssVal);
+    this.updateCoder({ dartVal });
   }
 
-  updateDartCoder(val) {
-    this.dartVal = val;
+  updateCoder({ cssVal, dartVal }) {
+    if (dartVal !== undefined && dartVal !== null) this.dartVal = dartVal;
+    if (cssVal !== undefined && cssVal !== null) this.cssVal = cssVal;
+
     this.setState({});
   }
 

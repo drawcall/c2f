@@ -10,6 +10,8 @@
     "fs-extra": "^8.1.0",
     "lodash": "^4.17.15",
     "postcss": "^7.0.17",
+    "postcss-short-border-radius": "^3.0.0",
+    "postcss-transform-shortcut": "github:jonathantneal/postcss-transform-shortcut",
     "react": "^16.8.6",
     "react-app-rewired": "^2.1.3",
     "react-codemirror2": "^6.0.0",

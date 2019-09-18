@@ -1,6 +1,7 @@
 const PROP = "<-prop->";
 const CLASS = "<-class->";
 const CHILDREN = "<-children->";
+const DECO = "<-decoration->";
 const TAB = "<-tab->";
 const REAL_SPACE = "  ";
 
@@ -8,6 +9,7 @@ const CONTAINER = `
 new Container( 
   ${CHILDREN}
   ${PROP}
+  ${DECO}
 ),
 `.trim();
 
@@ -31,6 +33,7 @@ export {
   CONTAINER,
   TEXT,
   CHILDREN,
+  DECO,
   CLASS,
   PROP,
   CENTER,
