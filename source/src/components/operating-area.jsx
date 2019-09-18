@@ -66,7 +66,7 @@ text-decoration: underline wavy red;
       <div className="container">
         <ResultAlert />
         <Row>
-          <Col span={12}>
+          <Col span={12} className="coder-con">
             <div className="coder-title">Css</div>
             <Coder
               options={this.cssOptions}
@@ -75,7 +75,7 @@ text-decoration: underline wavy red;
             />
           </Col>
 
-          <Col span={12}>
+          <Col span={12} className="coder-con">
             <div className="coder-title">Flutter</div>
             <Coder options={this.dartOptions} value={this.dartVal} />
           </Col>
