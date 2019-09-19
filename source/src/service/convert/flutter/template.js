@@ -29,6 +29,12 @@ new Center(
 ),
 `.trim();
 
+const POSITIONED = `
+new Positioned(
+  ${CHILDREN}
+  ${PROP}
+ ),`;
+
 export {
   CONTAINER,
   TEXT,
@@ -38,5 +44,6 @@ export {
   PROP,
   CENTER,
   TAB,
+  POSITIONED,
   REAL_SPACE
 };

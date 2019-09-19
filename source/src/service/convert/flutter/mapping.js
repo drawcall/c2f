@@ -4,6 +4,7 @@ import toFColor from "./transform/color";
 import toFBorder from "./transform/border";
 import toBoxShadow from "./transform/boxshadow";
 import toFTransform from "./transform/transform";
+import getFromData from "./transform/getfromdata";
 import toFFontWeight from "./transform/fontweight";
 import toConstraints from "./transform/constraints";
 import toFBorderRadius from "./transform/border-radius";
@@ -28,6 +29,15 @@ const mapping = (key, val, data) => {
     // width & height ------------------------
     case "width":
     case "height":
+      result["key"] = key;
+      result["val"] = toFunit(val);
+      break;
+
+    // left & right ------------------------
+    case "top":
+    case "right":
+    case "left":
+    case "bottom":
       result["key"] = key;
       result["val"] = toFunit(val);
       break;
@@ -155,7 +165,7 @@ const isText = key => {
 };
 
 const isDecoration = key => {
-  if (key === "background-image" || key === "border" || key === "box-shadow") {
+  if (key === "background-image" || key === "background-color" || key === "border" || key === "box-shadow") {
     return true;
   } else if (key.indexOf("border") >= 0) {
     return true;
@@ -164,4 +174,18 @@ const isDecoration = key => {
   }
 };
 
-export { mapping, isText, isDecoration };
+const isPositioned = (key, val, data) => {
+  const position = getFromData(data, "position");
+  const hasPosition = position === "absolute" || position === "fixed";
+
+  if (
+    hasPosition &&
+    (key === "top" || key === "left" || key === "right" || key === "bottom")
+  ) {
+    return true;
+  }
+
+  return false;
+};
+
+export { mapping, isText, isDecoration, isPositioned };

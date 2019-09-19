@@ -14,6 +14,7 @@ function App() {
         <Content>
           <Logo />
           <OperatingArea />
+          <div id="avator"></div>
         </Content>
       </Layout>
     </div>

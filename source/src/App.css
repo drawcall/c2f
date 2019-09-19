@@ -15,6 +15,10 @@
   color: #0073de;
 }
 
+#avator{
+  visibility: hidden;
+}
+
 .ant-layout{
   background: #fff !important;
 }

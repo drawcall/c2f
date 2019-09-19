@@ -7,6 +7,7 @@ import {
   CLASS,
   PROP,
   DECO,
+  POSITIONED,
   REAL_SPACE
 } from "./template";
 
@@ -15,10 +16,16 @@ class Widget {
     this.children = [];
     this.type = type;
     this.data = null;
+    this.parent = null;
+    this.enabled = false;
 
     switch (type) {
       case "container":
         this.template = CONTAINER;
+        break;
+
+      case "position":
+        this.template = POSITIONED;
         break;
 
       case "text":
@@ -35,9 +42,25 @@ class Widget {
   }
 
   addChild(child) {
+    this.enabled = true;
     if (this.children.indexOf(child) < 0) {
       this.children.push(child);
+      child.parent = this;
+      child.enabled = true;
     }
+  }
+
+  getDepth() {
+    let depth = 0;
+    const loop = target => {
+      if (target.parent) {
+        depth++;
+        loop(target.parent);
+      }
+    };
+    loop(this);
+
+    return depth;
   }
 
   setProp(okey, oval) {
@@ -51,6 +74,7 @@ class Widget {
       propVal = `  ${key}: ${val},`;
     }
 
+    this.enabled = true;
     this.insertPropToCodeLines(key, propVal);
   }
 
@@ -58,6 +82,7 @@ class Widget {
     let { key, val } = mapping(okey, oval, this.data);
     if (!key) return;
 
+    this.enabled = true;
     const decoVal = `${key}: ${val},`;
     this.decoration.push(decoVal);
   }
@@ -98,7 +123,8 @@ class Widget {
   }
 
   addSpaceEveryLine() {
-    this.codeLines = addSpaceEveryLine(this.codeLines, 1);
+    const n = this.getDepth();
+    this.codeLines = addSpaceEveryLine(this.codeLines, n);
   }
 
   clearAllPseudoTags() {

@@ -1,19 +1,22 @@
 import clone from "lodash/clone";
+import jqFilterFix from "./jqfilterfix";
 import { SHORTHAND_RULES, EXPANSION_RULES } from "./shorthand-config";
+import { removeFromeArray, appendNewCssStyle, isMulti, findSimilarNumber } from "./utils";
 
 const repairCss = cssResult => {
   if (!cssResult) return;
 
   let result;
-  result = shorthand2Expansion(cssResult);
+  result = jqFilterFix(cssResult);
+  result = shorthand2Expansion(result);
   result = expansion2Shorthand(result);
+
   return result;
 };
 
 // convert shorthand to expansion
 const shorthand2Expansion = cssResult => {
   let result = clone(cssResult);
-
   // convert shorthand to expansion
   for (let i = 0; i < cssResult.length; i++) {
     const style = cssResult[i];
@@ -70,53 +73,9 @@ const expansion2Shorthand = cssResult => {
       });
     }
   }
-
+  
   appendNewCssStyle(props, result);
   return result;
-};
-
-//////////////////////////////////////////////////////
-//
-//  utils function
-//
-//////////////////////////////////////////////////////
-const removeFromeArray = (key, arr) => {
-  for (let i = arr.length - 1; i >= 0; i--) {
-    if (arr[i]["key"] === key) {
-      arr.splice(i, 1);
-    }
-  }
-};
-
-const appendNewCssStyle = (newObj, arr) => {
-  for (let key in newObj) {
-    arr.push({
-      key,
-      val: newObj[key]
-    });
-  }
-};
-
-const isMulti = key => {
-  if (key.indexOf("|") > 0) return true;
-  else return false;
-};
-
-const findSimilarNumber = (n, rule) => {
-  if (rule[n + ""]) return n;
-
-  const nums = [];
-  for (let key in rule) {
-    nums.push(parseInt(key));
-  }
-  nums.sort((n1, n2) => n2 - n1);
-
-  for (let i = 0; i < nums.length; i++) {
-    const num = nums[i];
-    if (n > num) return num;
-  }
-
-  return 0;
 };
 
 export default repairCss;
