@@ -165,7 +165,12 @@ const isText = key => {
 };
 
 const isDecoration = key => {
-  if (key === "background-image" || key === "background-color" || key === "border" || key === "box-shadow") {
+  if (
+    key === "background-image" ||
+    key === "background-color" ||
+    key === "border" ||
+    key === "box-shadow"
+  ) {
     return true;
   } else if (key.indexOf("border") >= 0) {
     return true;
