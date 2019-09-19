@@ -1,9 +1,10 @@
 const getFromData = (data, key) => {
+  let val = null;
   data.forEach((ele, index) => {
-    if (ele.key === key) return ele.val;
+    if (ele.key === key) val = ele.val;
   });
 
-  return null;
+  return val;
 };
 
 export default getFromData;

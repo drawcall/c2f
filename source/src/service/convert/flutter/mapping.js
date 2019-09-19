@@ -1,17 +1,24 @@
-import toFColor from "./transform/color";
 import toFunit from "./transform/unit";
 import toCamel from "./transform/camel";
+import toFColor from "./transform/color";
 import toFBorder from "./transform/border";
-//import intercept from "./transform/intercept";
+import toBoxShadow from "./transform/boxshadow";
 import toFTransform from "./transform/transform";
 import toFFontWeight from "./transform/fontweight";
-import toDecorationImage from "./transform/background-image";
+import toConstraints from "./transform/constraints";
 import toFBorderRadius from "./transform/border-radius";
 import toFMarginPadding from "./transform/marginpadding";
+import toDecorationImage from "./transform/background-image";
 
 const mapping = (key, val, data) => {
   let result = { key: null, val: null };
   switch (key) {
+    // background-image color ------------------------
+    case "background-image":
+      result["key"] = "image";
+      result["val"] = toDecorationImage(val, data);
+      break;
+
     case "background-color":
     case "color":
       result["key"] = "color";
@@ -23,6 +30,15 @@ const mapping = (key, val, data) => {
     case "height":
       result["key"] = key;
       result["val"] = toFunit(val);
+      break;
+
+    // max-width & min-width ------------------------
+    case "max-width":
+    case "min-width":
+    case "max-height":
+    case "min-height":
+      result["key"] = "constraints";
+      result["val"] = toConstraints(val, data);
       break;
 
     // text decoration style ------------------------
@@ -47,6 +63,7 @@ const mapping = (key, val, data) => {
       break;
 
     case "font-size":
+    case "letter-spacing":
       result["val"] = toFunit(val);
       break;
 
@@ -69,15 +86,11 @@ const mapping = (key, val, data) => {
       result["val"] = toFTransform(val);
       break;
 
-    // Decoration ------------------------
-    case "background-image":
-      result["key"] = "image";
-      result["val"] = toDecorationImage(val, data);
-      break;
-
+    // border related ------------------------
     case "border-radius":
-      result["key"] = "borderRadius";
       result["val"] = toFBorderRadius(val);
+      result["key"] =
+        result["val"] === "BoxShape.circle" ? "shape" : "borderRadius";
       break;
 
     case "border":
@@ -85,20 +98,43 @@ const mapping = (key, val, data) => {
       result["val"] = toFBorder(val);
       break;
 
+    // box-shadow ------------------------
+    case "box-shadow":
+      result["key"] = "boxShadow";
+      result["val"] = toBoxShadow(val);
+      break;
+
     default:
       result["val"] = val;
       break;
   }
 
+  // to camel key
+  const camelKey = transfromToCamelKey(key);
+  if (camelKey) result["key"] = camelKey;
+
+  return result;
+};
+
+/////////////////////////////////////////////////////////
+//
+//	To camel key
+//
+/////////////////////////////////////////////////////////
+const transfromToCamelKey = key => {
+  if (key === "letter-spacing") {
+    return toCamel(key);
+  }
+
   if (/^font-[a-zA-Z]+/gi.test(key) || /^text-[a-zA-Z]+/gi.test(key)) {
-    result["key"] = toCamel(key);
+    return toCamel(key);
   }
 
   if (/^text-decoration.*/gi.test(key)) {
-    result["key"] = toCamel(key.replace(/^text-/gi, ""));
+    return toCamel(key.replace(/^text-/gi, ""));
   }
 
-  return result;
+  return null;
 };
 
 /////////////////////////////////////////////////////////
@@ -111,7 +147,7 @@ const isText = key => {
     return true;
   } else if (key.indexOf("text-") === 0) {
     return true;
-  } else if (key === "color") {
+  } else if (key === "color" || key === "letter-spacing") {
     return true;
   } else {
     return false;
@@ -119,7 +155,7 @@ const isText = key => {
 };
 
 const isDecoration = key => {
-  if (key === "background-image" || key === "border") {
+  if (key === "background-image" || key === "border" || key === "box-shadow") {
     return true;
   } else if (key.indexOf("border") >= 0) {
     return true;

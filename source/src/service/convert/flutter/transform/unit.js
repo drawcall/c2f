@@ -7,8 +7,13 @@ const toFunit = val => {
 
   val += "";
 
+  // like "250"
+  if (/^([0-9]+)$/gi.test(val)) {
+    return toNum(val);
+  }
+
   // like 50%
-  if (/([0-9]+)%$/gi.test(val)) {
+  else if (/([0-9]+)%$/gi.test(val)) {
     val = toNum(val) / 100;
     return `_parent_ * ${val} // percentage of parent width. like 'MediaQuery.of(context).size.width * 0.2'`;
   }

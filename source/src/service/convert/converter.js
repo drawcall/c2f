@@ -1,14 +1,14 @@
 import postcss from "postcss";
+import Message from "./message";
 import parseCss from "./css/parse";
 import repairCss from "./css/repair";
 import parseFlutter from "./flutter/parse";
-import { message } from "antd";
 
 const convert2Flutter = async css => {
   try {
     const ast = await postcss([
       require("postcss-transform-shortcut")({})
-      //require("postcss-short-border-radius")()
+      // require("postcss-short-border-radius")()
     ]).process(css);
 
     let result = await parseCss(ast.root);
@@ -16,12 +16,12 @@ const convert2Flutter = async css => {
 
     const flutterStyle = parseFlutter(result);
     if (flutterStyle !== "")
-      showMessage("success", "Has been converted successfully!");
+      Message.success("Has been converted successfully!");
 
     return flutterStyle;
   } catch (err) {
     const msg = dumpLogError(err);
-    showMessage("error", msg);
+    Message.error(msg);
 
     return "";
   }
@@ -46,26 +46,6 @@ const dumpLogError = err => {
   }
 
   return msg;
-};
-
-/////////////////////////////////////////////////////////
-//
-//	antd ui message
-//
-/////////////////////////////////////////////////////////
-message.config({
-  duration: 0.8,
-  maxCount: 3
-});
-let first = true;
-const showMessage = (type, msg) => {
-  if (first) {
-    first = false;
-    return;
-  }
-
-  if (type === "success") message.success(msg);
-  else message.error(msg);
 };
 
 export default convert2Flutter;

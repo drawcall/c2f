@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col, Button } from "antd";
 import Coder from "./coder";
 import ResultAlert from "./result-alert";
+import Message from "../service/convert/message";
 import convert2Flutter from "../service/convert/converter";
 
 class OperatingArea extends React.Component {
@@ -39,6 +40,7 @@ text-decoration: underline wavy red;
 
   clearBtnClickHandler(e) {
     this.updateCoder({ cssVal: "", dartVal: "" });
+    Message.success("Cleared successfully");
   }
 
   async convertBtnClickHandler(e) {
