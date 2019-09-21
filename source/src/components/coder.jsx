@@ -19,7 +19,7 @@ class Coder extends React.Component {
         value={this.props.value || ""}
         options={Object.assign(
           {
-            theme: "material",
+            theme: "monokai",
             tabSize: 2,
             lineNumbers: true
           },

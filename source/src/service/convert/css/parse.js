@@ -1,22 +1,30 @@
 import postcss from "postcss";
+import Decls from "./decls";
+import splitCssAttr from "./split-cssattr";
 
-const parseCss = root => {
+const parseCssDecls = root => {
   if (!root) return null;
 
-  return new Promise(function(resolve, reject) {
-    const result = [];
+  return new Promise(function (resolve, reject) {
+    const decls = new Decls();
+
     root.walkDecls(decl => {
       const list = postcss.list.space(decl.value);
-      result.push({
-        decl,
-        valueList: list,
+
+      decls.add({
         key: decl.prop,
-        val: decl.value
+        val: decl.value,
+        data: decl,
+        valueList: list
       });
     });
 
-    setTimeout(() => resolve(result), 80);
+
+    setTimeout((decls) => {
+      decls = splitCssAttr(decls);
+      resolve(decls)
+    }, 80, decls);
   });
 };
 
-export default parseCss;
+export default parseCssDecls;

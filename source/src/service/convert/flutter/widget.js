@@ -1,4 +1,6 @@
-import { mapping } from "./mapping";
+import ppo from "ppo";
+import CodeArr from "./code-arr";
+import transform from "./transform";
 import {
   CONTAINER,
   TEXT,
@@ -7,6 +9,7 @@ import {
   CLASS,
   PROP,
   DECO,
+  OPACITY,
   POSITIONED,
   REAL_SPACE
 } from "./template";
@@ -15,9 +18,9 @@ class Widget {
   constructor(type) {
     this.children = [];
     this.type = type;
-    this.data = null;
+    this.decls = null;
     this.parent = null;
-    this.enabled = false;
+    this.id = ppo.uuid();
 
     switch (type) {
       case "container":
@@ -26,6 +29,10 @@ class Widget {
 
       case "position":
         this.template = POSITIONED;
+        break;
+
+      case "opacity":
+        this.template = OPACITY;
         break;
 
       case "text":
@@ -37,17 +44,33 @@ class Widget {
     }
 
     this.codeString = "";
-    this.codeLines = this.template.split(/\n/g);
-    this.decoration = [];
+    this.prop = new CodeArr();
+    this.decoration = new CodeArr();
+    this.codelines = new CodeArr(this.template.split(/\n/g));
   }
 
   addChild(child) {
-    this.enabled = true;
     if (this.children.indexOf(child) < 0) {
       this.children.push(child);
       child.parent = this;
-      child.enabled = true;
     }
+  }
+
+  addChildTo(parent){
+    const loop = target => {
+      if (!target.parent) {
+        parent.addChild(target);
+      }else{
+        loop(target.parent);
+      }
+    };
+
+    this.root = parent;
+    loop(this);
+  }
+
+  getRoot(){
+    return this.root || this;
   }
 
   getDepth() {
@@ -63,68 +86,22 @@ class Widget {
     return depth;
   }
 
+  /// set prop --------------------------------
   setProp(okey, oval) {
-    let { key, val } = mapping(okey, oval, this.data);
+    let { key, val } = transform(okey, oval, this.decls);
     if (!key) return;
 
-    let propVal;
-    if (this.type === "text") {
-      propVal = `    ${key}: ${val}, `;
-    } else {
-      propVal = `  ${key}: ${val},`;
-    }
-
-    this.enabled = true;
-    this.insertPropToCodeLines(key, propVal);
+    const code = this.type === "text" ? `    ${key}: ${val},` : `${key}: ${val},`;
+    this.prop.add(key, code);
   }
 
+  /// set Decoration --------------------------------
   setDecoration(okey, oval) {
-    let { key, val } = mapping(okey, oval, this.data);
+    let { key, val } = transform(okey, oval, this.decls);
     if (!key) return;
 
-    this.enabled = true;
-    const decoVal = `${key}: ${val},`;
-    this.decoration.push(decoVal);
-  }
-
-  insertPropToCodeLines(key, propVal) {
-    let index;
-    // if has the same key -> replace
-    index = this.getTheSameProp(key);
-    if (index > -1) {
-      this.codeLines[index] = propVal;
-    } else {
-      // get <-prop-> tag index, and insertBefore
-      index = this.getPseudoTagIndex(PROP);
-      if (index > 0) {
-        this.codeLines.splice(index, 0, propVal);
-      }
-    }
-  }
-
-  getTheSameProp(key) {
-    for (let i = 0; i < this.codeLines.length; i++) {
-      const line = this.codeLines[i];
-      if (line.indexOf(`${key}:`) > -1) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  getPseudoTagIndex(tagName) {
-    for (let i = 0; i < this.codeLines.length; i++) {
-      const line = this.codeLines[i];
-      if (line.indexOf(tagName) > -1) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  addSpaceEveryLine() {
-    const n = this.getDepth();
-    this.codeLines = addSpaceEveryLine(this.codeLines, n);
+    const code = `${key}: ${val},`;
+    this.decoration.add(key, code);
   }
 
   clearAllPseudoTags() {
@@ -140,41 +117,43 @@ class Widget {
     const codeArr = this.codeString.split(/\n/g);
     for (let i = codeArr.length - 1; i >= 0; i--) {
       const line = codeArr[i].trim();
-      if (!line) {
-        codeArr.splice(i, 1);
-      }
+      if (!line) codeArr.splice(i, 1);
     }
+
     this.codeString = codeArr.join("\n");
   }
 
-  replaceByPseudoTag(pseudoTag, val) {
-    for (let i = 0; i < this.codeLines.length; i++) {
-      const line = this.codeLines[i];
-      if (line.indexOf(pseudoTag) > -1) {
-        this.codeLines[i] = line.replace(pseudoTag, `${val}`);
-      }
-    }
-  }
+  /// Convert various elements to CodeString ----------------------------
+  selfToCodeString() {
+    const depth = this.getDepth();
+    //const tabs = child.codelines.getTabs(depth);
 
-  selfLinesToCodeString() {
-    this.codeString = this.codeLines.join("\n");
+    this.codeString = this.codelines.toString(depth);
   }
 
   childToCodeString(child) {
-    child.addSpaceEveryLine();
-    this.replaceByPseudoTag(CHILDREN, `child: ${child.toString()}`);
+    const childStr = child.toString().trim();
+    this.replaceTag(CHILDREN, `  child: ${childStr}`);
+  }
+
+  propToCodeString() {
+    if (this.prop.isNull()) return;
+    this.replaceTag(PROP, this.prop.toString(1));
   }
 
   decorationToCodeString() {
-    if (this.decoration.length > 0) {
-      this.decoration = addSpaceEveryLine(this.decoration, 2, true);
-      let decoration = this.decoration.join("\n");
-      decoration = `decoration: BoxDecoration(
+    if (this.decoration.isNull()) return;
+
+    let decoration = this.decoration.toString(2);
+    decoration = `  decoration: BoxDecoration(
 ${decoration}
   )`;
 
-      this.replaceByPseudoTag(DECO, decoration);
-    }
+    this.replaceTag(DECO, decoration);
+  }
+
+  replaceTag(TAG, code){
+    this.codelines.replaceTag(TAG, code);
   }
 
   toString() {
@@ -183,50 +162,19 @@ ${decoration}
         const child = this.children[0];
         this.childToCodeString(child);
       } else {
-        for (let i = 0; i < this.children; i++) {}
+        for (let i = 0; i < this.children; i++) { }
       }
     }
 
     // merge code string
+    this.propToCodeString();
     this.decorationToCodeString();
-    this.selfLinesToCodeString();
+    this.selfToCodeString();
     this.clearAllPseudoTags();
     this.clearBlankLines();
-    return this.codeString;
+
+    return this.codeString || "";
   }
 }
-
-/////////////////////////////////////////////////////////
-//
-//	Utils Func
-//
-/////////////////////////////////////////////////////////
-const addSpaceEveryLine = (lines, n = 1, multi = false) => {
-  let tabs = "";
-  for (let i = 0; i < n; i++) {
-    tabs += TAB;
-  }
-
-  lines.forEach((line, index) => {
-    if (multi) {
-      lines[index] = forEachLines(line, (l, i, lineArr) => {
-        // if (i !== 0)
-        lineArr[i] = tabs + l;
-      });
-    } else {
-      if (index !== 0) lines[index] = tabs + line;
-    }
-  });
-
-  return lines;
-};
-
-const forEachLines = (lines, func) => {
-  const linesArr = lines.split(/\n/g);
-  linesArr.forEach((line, index) => {
-    func(line, index, linesArr);
-  });
-  return linesArr.join("\n");
-};
 
 export default Widget;

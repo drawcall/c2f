@@ -1,15 +1,9 @@
-import toCamel from "./camel";
-import getFromData from "./getfromdata";
-
-const toDecorationImage = (val, data) => {
+const toDecorationImage = (val, decls) => {
   val += "";
   val = val.replace(/^url\(/g, "").replace(/\)$/g, "");
 
-  let size = getFromData(data, "background-size");
-  size = size || "cover";
-
-  let repeat = getFromData(data, "background-repeat");
-  repeat = toCamel(repeat || "no-repeat");
+  const size = decls.getVal("background-size", "cover");
+  const repeat = decls.getVal("background-repeat", "no-repeat");
 
   return `
 new DecorationImage(

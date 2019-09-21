@@ -1,17 +1,22 @@
-import isArray from "lodash/isArray";
 import toFunit from "./unit";
 
-const toFMarginPadding = val => {
-  if (isArray(val)) {
-    const top = toFunit(val[0]);
-    const right = toFunit(val[1]);
-    const bottom = toFunit(val[2]);
-    const left = toFunit(val[3]);
+const toFMarginPadding = (key, val, decls) => {
+  let top = decls.getVal(`${key}-top`, 0);
+  let right = decls.getVal(`${key}-right`, 0);
+  let bottom = decls.getVal(`${key}-bottom`, 0);
+  let left = decls.getVal(`${key}-left`, 0);
+
+  if (top === right && right === bottom && bottom === left) {
+    top = toFunit(top);
+
+    return `const EdgeInsets.all(${top})`;
+  } else {
+    top = toFunit(top);
+    right = toFunit(right);
+    bottom = toFunit(bottom);
+    left = toFunit(left);
 
     return `const EdgeInsets.only(top: ${top}, right: ${right}, bottom: ${bottom}, left: ${left})`;
-  } else {
-    val = toFunit(val);
-    return `const EdgeInsets.only(top: ${val}, right: ${val}, bottom: ${val}, left: ${val})`;
   }
 };
 

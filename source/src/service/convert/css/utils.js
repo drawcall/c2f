@@ -3,23 +3,6 @@
 //  utils function
 //
 //////////////////////////////////////////////////////
-const removeFromeArray = (key, arr) => {
-  for (let i = arr.length - 1; i >= 0; i--) {
-    if (arr[i]["key"] === key) {
-      arr.splice(i, 1);
-    }
-  }
-};
-
-const appendNewCssStyle = (newObj, arr) => {
-  for (let key in newObj) {
-    arr.push({
-      key,
-      val: newObj[key]
-    });
-  }
-};
-
 const isMulti = key => {
   if (key.indexOf("|") > 0) return true;
   else return false;
@@ -42,15 +25,6 @@ const findSimilarNumber = (n, rule) => {
   return 0;
 };
 
-const getFromData = (data, key) => {
-  let val = null;
-  data.forEach((ele, index) => {
-    if (ele.key === key) val = ele.val;
-  });
-
-  return val;
-};
-
 const isNone = val => {
   if (!val) return true;
 
@@ -64,11 +38,4 @@ const isNone = val => {
   return false;
 };
 
-export {
-  removeFromeArray,
-  appendNewCssStyle,
-  isMulti,
-  findSimilarNumber,
-  getFromData,
-  isNone
-};
+export { isMulti, isNone, findSimilarNumber };

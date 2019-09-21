@@ -4,8 +4,7 @@ import toColor from "./color";
 // 0 2px 4px rgba(0, 0, 0, 0.8);
 const toBoxShadow = val => {
   val = toArray(val);
-
-  console.log(val);
+  
   const x = toFunit(val[0]);
   const y = toFunit(val[0]);
   const offset = `Offset(${x}, ${y})`;

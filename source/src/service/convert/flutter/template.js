@@ -33,7 +33,13 @@ const POSITIONED = `
 new Positioned(
   ${CHILDREN}
   ${PROP}
- ),`;
+),`;
+
+const OPACITY = `
+new Opacity(
+  ${CHILDREN}
+  ${PROP}
+),`;
 
 export {
   CONTAINER,
@@ -45,5 +51,6 @@ export {
   CENTER,
   TAB,
   POSITIONED,
+  OPACITY,
   REAL_SPACE
 };

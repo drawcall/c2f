@@ -1,12 +1,11 @@
 import toFunit from "./unit";
-import getFromData from "./getfromdata";
 
-const toConstraints = (val, data) => {
+const toConstraints = (val, decls) => {
   let bcVal = "";
-  let maxWidth = getFromData(data, "max-width");
-  let minWidth = getFromData(data, "min-width");
-  let maxHeight = getFromData(data, "max-height");
-  let minHeight = getFromData(data, "min-height");
+  let maxWidth = decls.getVal("max-width");
+  let minWidth = decls.getVal("min-width");
+  let maxHeight = decls.getVal("max-height");
+  let minHeight = decls.getVal("min-height");
 
   if (maxWidth) {
     bcVal += `maxWidth: ${toFunit(maxWidth)}`;

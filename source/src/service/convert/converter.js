@@ -1,7 +1,6 @@
 import postcss from "postcss";
 import Message from "./message";
-import parseCss from "./css/parse";
-import repairCss from "./css/repair";
+import parseCssDecls from "./css/parse";
 import parseFlutter from "./flutter/parse";
 
 const convert2Flutter = async css => {
@@ -10,11 +9,10 @@ const convert2Flutter = async css => {
       require("postcss-transform-shortcut")({})
       // require("postcss-short-border-radius")()
     ]).process(css);
+    
+    const decls = await parseCssDecls(ast.root);
+    const flutterStyle = parseFlutter(decls);
 
-    let result = await parseCss(ast.root);
-    result = repairCss(result);
-
-    const flutterStyle = parseFlutter(result);
     if (flutterStyle !== "")
       Message.success("Has been converted successfully!");
 

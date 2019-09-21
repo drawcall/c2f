@@ -1,41 +1,29 @@
-import isArray from "lodash/isArray";
 import toFunit from "./unit";
 
-const toFBorderRadius = val => {
-  if (isArray(val)) {
-    if (isAllEqual(val)) {
-      if (val[0] === "50%") {
-        return `BoxShape.circle`;
-      } else {
-        const brVal = toFunit(val[0]);
-        return `BorderRadius.all(const Radius.circular(${brVal}),)`;
-      }
+const toFBorderRadius = (val, decls) => {
+  let tl = decls.getVal("border-top-left-radius", 0);
+  let tr = decls.getVal("border-top-right-radius", 0);
+  let br = decls.getVal("border-bottom-right-radius", 0);
+  let bl = decls.getVal("border-bottom-left-radius", 0);
+
+  if (tl === tr && tr === br && br === bl) {
+    if (tl === "50%") {
+      return `BoxShape.circle`;
     } else {
-      let tl = toFunit(val[0]);
-      let tr = toFunit(val[1]);
-      let br = toFunit(val[2]);
-      let bl = toFunit(val[3]);
-
-      tl = `topLeft: Radius.circular(${tl})`;
-      tr = `topRight: Radius.circular(${tr})`;
-      br = `bottomRight: Radius.circular(${br})`;
-      bl = `bottomLeft: Radius.circular(${bl})`;
-
-      return `BorderRadius.only(${tl}, ${tr}, ${br}, ${bl})`;
+      return `BorderRadius.all(const Radius.circular(${toFunit(tl)}),)`;
     }
   } else {
-    val = toFunit(val);
-    return `BorderRadius.all(const Radius.circular(${val}),)`;
-  }
-};
+    let tl = toFunit(val[0]);
+    let tr = toFunit(val[1]);
+    let br = toFunit(val[2]);
+    let bl = toFunit(val[3]);
 
-const isAllEqual = array => {
-  if (array.length > 0) {
-    return !array.some(function(value, index) {
-      return value !== array[0];
-    });
-  } else {
-    return true;
+    tl = `topLeft: Radius.circular(${tl})`;
+    tr = `topRight: Radius.circular(${tr})`;
+    br = `bottomRight: Radius.circular(${br})`;
+    bl = `bottomLeft: Radius.circular(${bl})`;
+
+    return `BorderRadius.only(${tl}, ${tr}, ${br}, ${bl})`;
   }
 };
 
