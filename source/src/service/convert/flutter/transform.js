@@ -22,8 +22,13 @@ const transform = (key, val, decls) => {
       break;
 
     case match(key, "background-color", "color"):
-      result["key"] = "color";
       result["val"] = toFColor(val);
+      if(val === "rgba(0, 0, 0, 0)"){
+        result["key"] = null;
+      } else {
+        result["key"] = "color";
+      }
+
       break;
 
     // width & height ------------------------
