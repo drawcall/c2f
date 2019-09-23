@@ -4,10 +4,7 @@ C2F is an interesting little project. I hope to find a way to convert css styles
 
 ## Statement
 
-For beginners, the flutter style is really hard to remember. You may have to take the trouble to query this comparison table.
-[https://flutter.dev/docs/get-started/flutter-for/web-devs](https://flutter.dev/docs/get-started/flutter-for/web-devs)
-
-I want to build a website that converts css styles to flutter style online. I think it should help some web developers.
+For beginners, the flutter style is really hard to remember. I want to build a website that converts css styles to flutter style online. Maybe it will help those web developers get started quickly.
 
 ### NOTE
 
