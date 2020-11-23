@@ -11,3 +11,5 @@ src/node_modules/
 src/package-lock.json
 src/.DS_Store
 source-back/
+*.zip
+*.rar
