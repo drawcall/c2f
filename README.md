@@ -43,3 +43,6 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
+
+## License
+c2f is licensed under MIT license. View license. [https://github.com/tnfe/c2f/blob/master/LICENSE](https://github.com/tnfe/c2f/blob/master/LICENSE)
