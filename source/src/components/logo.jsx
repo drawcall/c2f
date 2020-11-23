@@ -11,11 +11,11 @@ const Logo = () => {
         Source code is here
         <a
           style={{ padding: 6 }}
-          href="https://github.com/flutterkit/c2f"
+          href="https://github.com/tnfe/c2f"
           rel="noopener noreferrer"
           target="_blank"
         >
-          https://github.com/flutterkit/c2f
+          https://github.com/tnfe/c2f
         </a>
       </div>
     </div>

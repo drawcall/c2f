@@ -9,12 +9,11 @@ const convert2Flutter = async css => {
       require("postcss-transform-shortcut")({})
       // require("postcss-short-border-radius")()
     ]).process(css);
-    
+
     const decls = await parseCssDecls(ast.root);
     const flutterStyle = parseFlutter(decls);
 
-    if (flutterStyle !== "")
-      Message.success("Has been converted successfully!");
+    if (flutterStyle !== "") Message.success("Has been converted successfully!");
 
     return flutterStyle;
   } catch (err) {

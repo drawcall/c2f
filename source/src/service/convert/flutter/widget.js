@@ -1,19 +1,7 @@
 import ppo from "ppo";
 import CodeArr from "./code-arr";
 import transform from "./transform";
-import {
-  CONTAINER,
-  TEXT,
-  CHILDREN,
-  TAB,
-  CLASS,
-  PROP,
-  DECO,
-  OPACITY,
-  POSITIONED,
-  REAL_SPACE
-} from "./template";
-
+import { CONTAINER, TEXT, CHILDREN, TAB, CLASS, PROP, DECO, OPACITY, POSITIONED, REAL_SPACE } from "./template";
 class Widget {
   constructor(type) {
     this.children = [];
@@ -56,11 +44,11 @@ class Widget {
     }
   }
 
-  addChildTo(parent){
+  addChildTo(parent) {
     const loop = target => {
       if (!target.parent) {
         parent.addChild(target);
-      }else{
+      } else {
         loop(target.parent);
       }
     };
@@ -69,7 +57,7 @@ class Widget {
     loop(this);
   }
 
-  getRoot(){
+  getRoot() {
     return this.root || this;
   }
 
@@ -152,7 +140,7 @@ ${decoration}
     this.replaceTag(DECO, decoration);
   }
 
-  replaceTag(TAG, code){
+  replaceTag(TAG, code) {
     this.codelines.replaceTag(TAG, code);
   }
 
@@ -162,7 +150,7 @@ ${decoration}
         const child = this.children[0];
         this.childToCodeString(child);
       } else {
-        for (let i = 0; i < this.children; i++) { }
+        for (let i = 0; i < this.children; i++) {}
       }
     }
 

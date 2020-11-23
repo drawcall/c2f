@@ -20,7 +20,7 @@ const parseFlutter = decls => {
       const parent = cache["_parent.position"];
       parent.setProp(key, val);
       widget.addChildTo(parent);
-    } 
+    }
 
     // Opacity
     else if (isOpacity(key, val, decls)) {
@@ -29,7 +29,7 @@ const parseFlutter = decls => {
       const parent = cache["_parent.opacity"];
       parent.setProp(key, val);
       widget.addChildTo(parent);
-    } 
+    }
 
     /// child widget ---------------
     // text
@@ -41,12 +41,11 @@ const parseFlutter = decls => {
       widget.addChild(child);
     }
 
-
     /// self widget ---------------
     // decoration
     else if (isDecoration(key)) {
       widget.setDecoration(key, val);
-    } 
+    }
 
     // prop
     else {
@@ -75,12 +74,7 @@ const isText = key => {
 };
 
 const isDecoration = key => {
-  if (
-    key === "background-image" ||
-    key === "background-color" ||
-    key === "border" ||
-    key === "box-shadow"
-  ) {
+  if (key === "background-image" || key === "background-color" || key === "border" || key === "box-shadow") {
     return true;
   } else if (key.indexOf("border") >= 0) {
     return true;
@@ -93,15 +87,9 @@ const isPositioned = (key, val, decls) => {
   const position = decls.getVal("position");
   const hasPosition = position === "absolute" || position === "fixed";
 
-  const isTLRBAttr = hasPosition && (
-    key === "top" ||
-    key === "left" ||
-    key === "right" ||
-    key === "bottom"
-  );
+  const isTLRBAttr = hasPosition && (key === "top" || key === "left" || key === "right" || key === "bottom");
 
-  const isPositionAttr = key === "position" &&
-    (val === "absolute" || val === "fixed");
+  const isPositionAttr = key === "position" && (val === "absolute" || val === "fixed");
 
   if (isTLRBAttr || isPositionAttr) {
     return true;
@@ -111,7 +99,7 @@ const isPositioned = (key, val, decls) => {
 };
 
 const isOpacity = (key, val, decls) => {
-  if (key === "opacity" ) {
+  if (key === "opacity") {
     return true;
   }
 

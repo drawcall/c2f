@@ -23,7 +23,7 @@ const transform = (key, val, decls) => {
 
     case match(key, "background-color", "color"):
       result["val"] = toFColor(val);
-      if(val === "rgba(0, 0, 0, 0)"){
+      if (val === "rgba(0, 0, 0, 0)") {
         result["key"] = null;
       } else {
         result["key"] = "color";
@@ -102,8 +102,7 @@ const transform = (key, val, decls) => {
     // border related ------------------------
     case match(key, "border-radius"):
       result["val"] = toFBorderRadius(val, decls);
-      result["key"] =
-        result["val"] === "BoxShape.circle" ? "shape" : "borderRadius";
+      result["key"] = result["val"] === "BoxShape.circle" ? "shape" : "borderRadius";
       break;
 
     case match(key, "border"):
@@ -157,7 +156,7 @@ const inSplitStyles = (key, sign) => {
     if (key === subStyles[i]) return sign;
   }
   return null;
-}
+};
 
 /////////////////////////////////////////////////////////
 //
