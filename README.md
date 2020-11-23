@@ -14,11 +14,11 @@ I want to use `postcss` to do a lot of things, we can get a style attribute and 
 
 ## Run and build
 
-### `cd source`
+#### `cd ./source`
 
 Enter source folder
 
-### `npm start`
+#### `npm start`
 
 ```shell
 npm i
@@ -32,7 +32,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm run build`
+#### `npm run build`
 
 ```shell
 npm run build
