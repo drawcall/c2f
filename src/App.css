@@ -1,0 +1,73 @@
+@import '~antd/dist/antd.css';
+
+.App {
+  text-align: center;
+}
+
+.logo{
+  margin: 40px 0 30px 0;
+}
+
+.logo .title{
+  margin-top: 12px;
+  font-size: 40px;
+  font-family: Ostrich-Black;
+  color: #0073de;
+}
+
+#avator{
+  visibility: hidden;
+}
+
+.ant-layout{
+  background: #fff !important;
+}
+
+@font-face {
+  font-family: 'Ostrich-Black';  
+  src: url('./assets/font/Ostrich Regular.ttf');
+}
+
+.container{
+  width: 95%;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+.code-mirror{
+  margin: 0 8px;
+  text-align: left;
+  
+}
+
+.coder-con{
+  padding: 0 16px;
+}
+
+.coder-title{
+  text-align: left;
+  margin-left: 10px;
+  color: #999;
+}
+
+@media screen and (max-height: 760px) {
+  .CodeMirror {
+    height: 400px;
+  }
+}
+
+@media screen and (min-height: 760px) {
+  .CodeMirror {
+    height: 600px;
+  }
+}
+
+.btns{
+  margin: 30px auto 20px;
+}
+
+.btns button{
+  width: 130px;
+  margin: 0 20px;
+  border-radius: 0px;
+}
