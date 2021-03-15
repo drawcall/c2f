@@ -7,6 +7,6 @@ const fsRemove = promisify(fs.remove);
 main();
 
 async function main() {
-  await fsRemove("../docs");
+  await fsRemove("./docs");
   await fsMove("./build", "./docs");
 }
