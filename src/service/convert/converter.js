@@ -1,5 +1,5 @@
 import postcss from "postcss";
-import Message from "./message";
+import Message from "../message/message";
 import parseCssDecls from "./css/parse";
 import parseFlutter from "./flutter/parse";
 

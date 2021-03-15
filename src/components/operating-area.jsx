@@ -1,8 +1,8 @@
 import React from "react";
-import { Row, Col, Button } from "antd";
 import Coder from "./coder";
+import { Row, Col, Button } from "antd";
 import ResultAlert from "./result-alert";
-import Message from "../service/convert/message";
+import Message from "../service/message/message";
 import convert2Flutter from "../service/convert/converter";
 
 class OperatingArea extends React.Component {

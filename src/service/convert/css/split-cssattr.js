@@ -5,7 +5,7 @@
 ////////////////////////////////////////////////////////////////
 
 import $ from "jquery";
-import { isNone } from "./utils";
+import { isNone } from "../../utils/num";
 import SPLIT_MAPPING from "./split-mapping";
 
 const splitCssAttr = decls => {

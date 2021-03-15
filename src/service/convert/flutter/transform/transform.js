@@ -1,6 +1,6 @@
 import ppo from "ppo";
-import toNum from "./num";
 import toRadian from "./radian";
+import { toNum } from "../../../utils/num";
 
 // skewX(25deg) rotate3d(180deg,0,1) scale3d(2,2,1) translate3d(10px,10px,0px);
 const toFTransform = val => {
@@ -17,10 +17,10 @@ const toFTransform = val => {
   rotate = formatVal("rotate", rotate);
   translate = formatVal("translate", translate);
 
-  if(skew) matrixval += `${skew}..`;
-  if(scale) matrixval += `${scale}..`;
-  if(rotate) matrixval += `${rotate}..`;
-  if(translate) matrixval += `${translate}..`;
+  if (skew) matrixval += `${skew}..`;
+  if (scale) matrixval += `${scale}..`;
+  if (rotate) matrixval += `${rotate}..`;
+  if (translate) matrixval += `${translate}..`;
 
   matrixval = matrixval.replace(/\.\.$/g, "");
 

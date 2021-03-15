@@ -1,5 +1,4 @@
 import toFunit from "./transform/unit";
-import toCamel from "./transform/camel";
 import toFColor from "./transform/color";
 import toFBorder from "./transform/border";
 import toBoxShadow from "./transform/boxshadow";
@@ -10,6 +9,7 @@ import toFBorderRadius from "./transform/border-radius";
 import toFMarginPadding from "./transform/marginpadding";
 import toDecorationImage from "./transform/background-image";
 import SPLIT_MAPPING from "../css/split-mapping";
+import toCamel from "../../utils/camel";
 
 const transform = (key, val, decls) => {
   const result = { key: null, val };
