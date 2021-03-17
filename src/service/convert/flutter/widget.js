@@ -45,6 +45,8 @@ class Widget {
   }
 
   addChildTo(parent) {
+    if (this.parent === parent) return;
+
     const loop = target => {
       if (!target.parent) {
         parent.addChild(target);
