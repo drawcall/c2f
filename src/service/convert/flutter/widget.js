@@ -1,7 +1,7 @@
 import ppo from "ppo";
 import CodeArr from "./code-arr";
 import transform from "./transform";
-import { CONTAINER, TEXT, CHILDREN, TAB, CLASS, PROP, DECO, OPACITY, POSITIONED, REAL_SPACE } from "./template";
+import { CONTAINER, TEXT, CHILDREN, TAB, CLASS, PROP, PROP2, DECO, OPACITY, POSITIONED, REAL_SPACE } from "./template";
 class Widget {
   constructor(type) {
     this.children = [];
@@ -33,6 +33,7 @@ class Widget {
 
     this.codeString = "";
     this.prop = new CodeArr();
+    this.prop2 = new CodeArr();
     this.decoration = new CodeArr();
     this.codelines = new CodeArr(this.template.split(/\n/g));
   }
@@ -85,6 +86,14 @@ class Widget {
     this.prop.add(key, code);
   }
 
+  /// set prop2 --------------------------------
+  setProp2(okey, oval) {
+    let { key, val } = transform(okey, oval, this.decls);
+    if (!key) return;
+    const code = this.type === "text" ? `  ${key}: ${val},` : `${key}: ${val},`;
+    this.prop2.add(key, code);
+  }
+
   /// set Decoration --------------------------------
   setDecoration(okey, oval) {
     let { key, val } = transform(okey, oval, this.decls);
@@ -99,6 +108,7 @@ class Widget {
       .replace(new RegExp(CHILDREN, "g"), "")
       .replace(new RegExp(CLASS, "g"), "")
       .replace(new RegExp(PROP, "g"), "")
+      .replace(new RegExp(PROP2, "g"), "")
       .replace(new RegExp(DECO, "g"), "")
       .replace(new RegExp(TAB, "g"), REAL_SPACE);
   }
@@ -128,7 +138,13 @@ class Widget {
 
   propToCodeString() {
     if (this.prop.isNull()) return;
-    this.replaceTag(PROP, this.prop.toString(1));
+    const nspace = this.type === "text" ? 0 : 1;
+    this.replaceTag(PROP, this.prop.toString(nspace));
+  }
+
+  prop2ToCodeString() {
+    if (this.prop2.isNull()) return;
+    this.replaceTag(PROP2, this.prop2.toString(0));
   }
 
   decorationToCodeString() {
@@ -158,6 +174,7 @@ ${decoration}
 
     // merge code string
     this.propToCodeString();
+    this.prop2ToCodeString();
     this.decorationToCodeString();
     this.selfToCodeString();
     this.clearAllPseudoTags();

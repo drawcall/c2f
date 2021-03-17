@@ -9,6 +9,7 @@ import toFBorderRadius from "./transform/border-radius";
 import toFMarginPadding from "./transform/marginpadding";
 import toDecorationImage from "./transform/background-image";
 import SPLIT_MAPPING from "../css/split-mapping";
+import addQuotes from "../../utils/str";
 import toCamel from "../../utils/camel";
 
 const transform = (key, val, decls) => {
@@ -78,6 +79,10 @@ const transform = (key, val, decls) => {
     case match(key, "font-size"):
     case match(key, "letter-spacing"):
       result["val"] = toFunit(val);
+      break;
+
+    case match(key, "font-family"):
+      result["val"] = addQuotes(val);
       break;
 
     // padding margin ------------------------

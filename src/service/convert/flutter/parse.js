@@ -37,7 +37,13 @@ const parseFlutter = decls => {
       if (!cache["_child.text"]) cache["_child.text"] = new Widget("text");
 
       const child = cache["_child.text"];
-      child.setProp(key, val);
+      const keys = ["text-align"];
+
+      if (keys.indexOf(key) > -1) {
+        child.setProp2(key, val);
+      } else {
+        child.setProp(key, val);
+      }
       widget.addChild(child);
     }
 

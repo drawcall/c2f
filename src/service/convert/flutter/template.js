@@ -1,4 +1,5 @@
 const PROP = "<-prop->";
+const PROP2 = "<-prop2->";
 const CLASS = "<-class->";
 const CHILDREN = "<-children->";
 const DECO = "<-decoration->";
@@ -6,7 +7,7 @@ const TAB = "<-tab->";
 const REAL_SPACE = "  ";
 
 const CONTAINER = `
-new Container( 
+ Container(
   ${CHILDREN}
   ${PROP}
   ${DECO}
@@ -14,31 +15,32 @@ new Container(
 `.trim();
 
 const TEXT = `
-new Text(
+ Text(
   "Hello World",
-  style: new TextStyle(
+  style: TextStyle(
     ${PROP}
   ),
+  ${PROP2}
 ),
 `.trim();
 
 const CENTER = `
-new Center(
+ Center(
   ${CHILDREN}
   ${PROP}
 ),
 `.trim();
 
 const POSITIONED = `
-new Positioned(
+ Positioned(
   ${CHILDREN}
   ${PROP}
 ),`;
 
 const OPACITY = `
-new Opacity(
+ Opacity(
   ${CHILDREN}
   ${PROP}
 ),`;
 
-export { CONTAINER, TEXT, CHILDREN, DECO, CLASS, PROP, CENTER, TAB, POSITIONED, OPACITY, REAL_SPACE };
+export { CONTAINER, TEXT, CHILDREN, DECO, CLASS, PROP, PROP2, CENTER, TAB, POSITIONED, OPACITY, REAL_SPACE };
