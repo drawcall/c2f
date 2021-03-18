@@ -39,11 +39,10 @@ const isNone = val => {
 const toNum = val => {
   if (isNumber(val)) return val;
 
-  const r = /([0-9]+)[a-zA-Z%]/gi.exec(`${val}c`);
+  const r = /([0-9\.]+)[a-zA-Z%]/gi.exec(`${val}c`);
   if (r && r.length >= 2) {
     val = r[1];
     val = isNumber(val) ? val : parseFloat(val);
-
     return val;
   } else {
     return toNumber(val);

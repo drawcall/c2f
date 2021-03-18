@@ -16,7 +16,6 @@ const parseFlutter = decls => {
     // Positioned
     if (isPositioned(key, val, decls)) {
       if (!cache["_parent.position"]) cache["_parent.position"] = new Widget("position");
-
       const parent = cache["_parent.position"];
       parent.setProp(key, val);
       widget.addChildTo(parent);
@@ -25,8 +24,15 @@ const parseFlutter = decls => {
     // Opacity
     else if (isOpacity(key, val, decls)) {
       if (!cache["_parent.opacity"]) cache["_parent.opacity"] = new Widget("opacity");
-
       const parent = cache["_parent.opacity"];
+      parent.setProp(key, val);
+      widget.addChildTo(parent);
+    }
+
+    // Transform
+    else if (isTransform(key, val, decls)) {
+      if (!cache["_parent.transform"]) cache["_parent.transform"] = new Widget("transform");
+      const parent = cache["_parent.transform"];
       parent.setProp(key, val);
       widget.addChildTo(parent);
     }
@@ -94,21 +100,21 @@ const isPositioned = (key, val, decls) => {
   const hasPosition = position === "absolute" || position === "fixed";
 
   const isTLRBAttr = hasPosition && (key === "top" || key === "left" || key === "right" || key === "bottom");
-
   const isPositionAttr = key === "position" && (val === "absolute" || val === "fixed");
 
   if (isTLRBAttr || isPositionAttr) {
     return true;
   }
-
   return false;
 };
 
 const isOpacity = (key, val, decls) => {
-  if (key === "opacity") {
-    return true;
-  }
+  if (key === "opacity") return true;
+  return false;
+};
 
+const isTransform = (key, val, decls) => {
+  if (key && /transform$/gi.test(key)) return true;
   return false;
 };
 

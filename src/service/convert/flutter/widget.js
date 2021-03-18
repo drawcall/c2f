@@ -1,7 +1,20 @@
 import ppo from "ppo";
 import CodeArr from "./code-arr";
 import transform from "./transform";
-import { CONTAINER, TEXT, CHILDREN, TAB, CLASS, PROP, PROP2, DECO, OPACITY, POSITIONED, REAL_SPACE } from "./template";
+import {
+  CONTAINER,
+  TEXT,
+  CHILDREN,
+  TAB,
+  CLASS,
+  PROP,
+  PROP2,
+  DECO,
+  OPACITY,
+  POSITIONED,
+  TRANSFORM,
+  REAL_SPACE
+} from "./template";
 class Widget {
   constructor(type) {
     this.children = [];
@@ -17,6 +30,10 @@ class Widget {
 
       case "position":
         this.template = POSITIONED;
+        break;
+
+      case "transform":
+        this.template = TRANSFORM;
         break;
 
       case "opacity":
