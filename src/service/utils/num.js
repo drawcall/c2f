@@ -1,3 +1,4 @@
+import ppo from "ppo";
 import toNumber from "lodash/toNumber";
 import isNumber from "lodash/isNumber";
 
@@ -39,7 +40,7 @@ const isNone = val => {
 const toNum = val => {
   if (isNumber(val)) return val;
 
-  const r = /([0-9\.]+)[a-zA-Z%]/gi.exec(`${val}c`);
+  const r = /([-0-9.]+)[a-zA-Z%]/gi.exec(`${val}c`);
   if (r && r.length >= 2) {
     val = r[1];
     val = isNumber(val) ? val : parseFloat(val);
@@ -49,4 +50,16 @@ const toNum = val => {
   }
 };
 
-export { isMulti, isNone, toNum, findSimilarNumber };
+const toRadian = (val, fl = 3) => {
+  let radian = val.toString().replace(/deg$/g, "");
+  radian = (radian * Math.PI) / 180;
+  return ppo.floor(radian, fl);
+};
+
+const toRound = (val, n = 3) => {
+  const d = Math.pow(10, n);
+  const num = Math.round(val * d);
+  return num / d;
+};
+
+export { isMulti, isNone, toNum, findSimilarNumber, toRadian, toRound };

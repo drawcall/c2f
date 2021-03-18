@@ -18,7 +18,7 @@ const transform = (key, val, decls) => {
   switch (true) {
     // background-image color ------------------------
     case match(key, "background-image"):
-      result["key"] = "image";
+      result["key"] = /^[a-zA-Z]+-gradient/gi.test(val) ? "gradient" : "image";
       result["val"] = toDecorationImage(val, decls);
       break;
 

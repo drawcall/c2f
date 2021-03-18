@@ -1,8 +1,6 @@
-import ppo from "ppo";
 import trim from "lodash/trim";
-import toRadian from "./radian";
-import { toNum } from "../../../utils/num";
 import { split2Arr } from "../../../utils/arr";
+import { toNum, toRadian } from "../../../utils/num";
 
 // skewX(25deg) rotate3d(180deg,0,1) scale3d(2,2,1) translate3d(10px,10px,0px);
 const toFTransform = val => {
@@ -52,10 +50,8 @@ const formatVal = (key, val) => {
     let arr = [];
 
     if (key === "rotate") {
-      let v = str.toString().replace(/deg$/g, "");
-      v = toRadian(v);
-      v = ppo.floor(v, 3);
-      val = val.replace(str, v);
+      const radian = toRadian(str);
+      val = val.replace(str, radian);
     } else {
       strArr.forEach(n => {
         n = toNum(n);

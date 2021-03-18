@@ -23,6 +23,7 @@ const toConstraints = (val, decls) => {
     bcVal += `, minHeight: ${toFunit(minHeight)}`;
   }
 
+  bcVal = bcVal.replace(/^,/g, "");
   return `BoxConstraints(${bcVal})`;
 };
 
