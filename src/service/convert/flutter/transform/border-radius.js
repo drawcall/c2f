@@ -10,7 +10,7 @@ const toFBorderRadius = (val, decls) => {
     if (tl === "50%") {
       return `BoxShape.circle`;
     } else {
-      return `BorderRadius.all(const Radius.circular(${toFunit(tl)}),)`;
+      return `BorderRadius.all(const Radius.circular(${toFunit(tl)}))`;
     }
   } else {
     let tl = toFunit(val[0]);
