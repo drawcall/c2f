@@ -1,12 +1,20 @@
-import Widget from "./widget";
+import { Widget, WidgetManager } from "./widget";
+import {
+  isRow,
+  isColumn,
+  isText,
+  isDecoration,
+  isPositioned,
+  isOpacity,
+  isTransform
+} from "./filter";
 
 const parseFlutter = decls => {
   if (!decls || decls.isNull()) return "";
 
-  let cache = {};
-  let widget;
-  widget = new Widget("container");
+  let widget = new Widget("container");
   widget.decls = decls;
+  const widgetManager = new WidgetManager();
 
   decls.forEach((decl, index) => {
     let key = decl["key"];
@@ -14,25 +22,36 @@ const parseFlutter = decls => {
 
     /// parent widget ---------------
     // Positioned
-    if (isPositioned(key, val, decls)) {
-      if (!cache["_parent.position"]) cache["_parent.position"] = new Widget("position");
-      const parent = cache["_parent.position"];
+    if (isPositioned({ key, val, decls })) {
+      const parent = widgetManager.get({ target: "parent", type: "position" });
       parent.setProp(key, val);
       widget.addChildTo(parent);
     }
 
     // Opacity
-    else if (isOpacity(key, val, decls)) {
-      if (!cache["_parent.opacity"]) cache["_parent.opacity"] = new Widget("opacity");
-      const parent = cache["_parent.opacity"];
+    else if (isOpacity({ key, val, decls })) {
+      const parent = widgetManager.get({ target: "parent", type: "opacity" });
+      parent.setProp(key, val);
+      widget.addChildTo(parent);
+    }
+
+    // Flex Row
+    else if (isRow({ key, val, decls })) {
+      const parent = widgetManager.get({ target: "parent", type: "row" });
+      parent.setProp(key, val);
+      widget.addChildTo(parent);
+    }
+
+    // Flex Column
+    else if (isColumn({ key, val, decls })) {
+      const parent = widgetManager.get({ target: "parent", type: "column" });
       parent.setProp(key, val);
       widget.addChildTo(parent);
     }
 
     // Transform
-    else if (isTransform(key, val, decls)) {
-      if (!cache["_parent.transform"]) cache["_parent.transform"] = new Widget("transform");
-      const parent = cache["_parent.transform"];
+    else if (isTransform({ key, val, decls })) {
+      const parent = widgetManager.get({ target: "parent", type: "transform" });
       parent.setProp(key, val);
       widget.addChildTo(parent);
     }
@@ -40,11 +59,8 @@ const parseFlutter = decls => {
     /// child widget ---------------
     // text
     else if (isText(key)) {
-      if (!cache["_child.text"]) cache["_child.text"] = new Widget("text");
-
-      const child = cache["_child.text"];
+      const child = widgetManager.get({ target: "child", type: "text" });
       const keys = ["text-align"];
-
       if (keys.indexOf(key) > -1) {
         child.setProp2(key, val);
       } else {
@@ -66,56 +82,6 @@ const parseFlutter = decls => {
   });
 
   return widget.getRoot().toString();
-};
-
-/////////////////////////////////////////////////////////
-//
-//	Filter Func
-//
-/////////////////////////////////////////////////////////
-const isText = key => {
-  if (key.indexOf("font") === 0) {
-    return true;
-  } else if (key.indexOf("text-") === 0) {
-    return true;
-  } else if (key === "color" || key === "letter-spacing") {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-const isDecoration = key => {
-  if (key === "background-image" || key === "background-color" || key === "border" || key === "box-shadow") {
-    return true;
-  } else if (key.indexOf("border") >= 0) {
-    return true;
-  } else {
-    return false;
-  }
-};
-
-const isPositioned = (key, val, decls) => {
-  const position = decls.getVal("position");
-  const hasPosition = position === "absolute" || position === "fixed";
-
-  const isTLRBAttr = hasPosition && (key === "top" || key === "left" || key === "right" || key === "bottom");
-  const isPositionAttr = key === "position" && (val === "absolute" || val === "fixed");
-
-  if (isTLRBAttr || isPositionAttr) {
-    return true;
-  }
-  return false;
-};
-
-const isOpacity = (key, val, decls) => {
-  if (key === "opacity") return true;
-  return false;
-};
-
-const isTransform = (key, val, decls) => {
-  if (key && /transform$/gi.test(key)) return true;
-  return false;
 };
 
 export default parseFlutter;

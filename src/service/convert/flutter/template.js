@@ -31,6 +31,20 @@ const CENTER = `
 ),
 `.trim();
 
+const ROW = `
+ ROW(
+  ${CHILDREN}
+  ${PROP}
+),
+`.trim();
+
+const COLUMN = `
+ COLUMN(
+  ${CHILDREN}
+  ${PROP}
+),
+`.trim();
+
 const POSITIONED = `
  Positioned(
   ${CHILDREN}
@@ -49,4 +63,20 @@ const OPACITY = `
   ${PROP}
 ),`;
 
-export { CONTAINER, TEXT, CHILDREN, DECO, CLASS, PROP, PROP2, CENTER, TAB, POSITIONED, TRANSFORM, OPACITY, REAL_SPACE };
+export {
+  CONTAINER,
+  TEXT,
+  CHILDREN,
+  DECO,
+  CLASS,
+  PROP,
+  PROP2,
+  CENTER,
+  TAB,
+  ROW,
+  COLUMN,
+  POSITIONED,
+  TRANSFORM,
+  OPACITY,
+  REAL_SPACE
+};

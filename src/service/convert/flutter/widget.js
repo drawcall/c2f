@@ -6,6 +6,8 @@ import {
   TEXT,
   CHILDREN,
   TAB,
+  ROW,
+  COLUMN,
   CLASS,
   PROP,
   PROP2,
@@ -42,6 +44,14 @@ class Widget {
 
       case "text":
         this.template = TEXT;
+        break;
+
+      case "row":
+        this.template = ROW;
+        break;
+
+      case "column":
+        this.template = COLUMN;
         break;
 
       default:
@@ -99,7 +109,8 @@ class Widget {
     let { key, val } = transform(okey, oval, this.decls);
     if (!key) return;
 
-    const code = this.type === "text" ? `    ${key}: ${val},` : `${key}: ${val},`;
+    const code =
+      this.type === "text" ? `    ${key}: ${val},` : `${key}: ${val},`;
     this.prop.add(key, code);
   }
 
@@ -201,4 +212,17 @@ ${decoration}
   }
 }
 
-export default Widget;
+class WidgetManager {
+  constructor() {
+    this.cache = {};
+  }
+
+  get({ type, target }) {
+    const { cache } = this;
+    const key = `_${target}.${type}`;
+    if (!cache[key]) cache[key] = new Widget(type);
+    return cache[key];
+  }
+}
+
+export { Widget, WidgetManager };

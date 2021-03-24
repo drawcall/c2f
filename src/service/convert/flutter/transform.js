@@ -6,6 +6,7 @@ import toFTransform from "./transform/transform";
 import toFFontWeight from "./transform/fontweight";
 import toConstraints from "./transform/constraints";
 import toFBorderRadius from "./transform/border-radius";
+import toAxisAlignment from "./transform/axis-alignment";
 import toFMarginPadding from "./transform/marginpadding";
 import toDecorationImage from "./transform/background-image";
 import SPLIT_MAPPING from "../css/split-mapping";
@@ -93,9 +94,14 @@ const transform = (key, val, decls) => {
       break;
 
     // align items ------------------------
+    case match(key, "justify-content"):
+      result["key"] = "mainAxisAlignment";
+      result["val"] = `MainAxisAlignment.${toAxisAlignment(val)}`;
+      break;
+
     case match(key, "align-items"):
-      result["key"] = "alignment";
-      result["val"] = `Alignment.${val}`;
+      result["key"] = "crossAxisAlignment";
+      result["val"] = `CrossAxisAlignment.${toAxisAlignment(val)}`;
       break;
 
     // transform ------------------------
@@ -107,7 +113,8 @@ const transform = (key, val, decls) => {
     // border related ------------------------
     case match(key, "border-radius"):
       result["val"] = toFBorderRadius(val, decls);
-      result["key"] = result["val"] === "BoxShape.circle" ? "shape" : "borderRadius";
+      result["key"] =
+        result["val"] === "BoxShape.circle" ? "shape" : "borderRadius";
       break;
 
     case match(key, "border"):
