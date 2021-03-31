@@ -38,7 +38,6 @@ const parseFlutter = decls => {
 
     // Flex isCenter
     else if (isCenter({ key, val, decls })) {
-      console.log(2222);
       const parent = widgetManager.get({ target: "parent", type: "center" });
       parent.setProp(key, val);
       widget.addChildTo(parent);
