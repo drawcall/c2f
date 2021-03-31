@@ -23,7 +23,7 @@ const toDecorationImage = (val, decls) => {
 
 const createLineGradient = (val, decls) => {
   const colors = [];
-  let begin, end;
+  let end;
   const arr = val
     .replace(/^[a-zA-Z]+-gradient/gi, "")
     .replace("(", "")

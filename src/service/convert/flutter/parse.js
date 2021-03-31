@@ -1,6 +1,7 @@
 import { Widget, WidgetManager } from "./widget";
 import {
   isRow,
+  isCenter,
   isColumn,
   isText,
   isDecoration,
@@ -20,7 +21,7 @@ const parseFlutter = decls => {
     let key = decl["key"];
     let val = decl["val"];
 
-    /// parent widget ---------------
+    /// parent widget ---------------------------------------------
     // Positioned
     if (isPositioned({ key, val, decls })) {
       const parent = widgetManager.get({ target: "parent", type: "position" });
@@ -31,6 +32,14 @@ const parseFlutter = decls => {
     // Opacity
     else if (isOpacity({ key, val, decls })) {
       const parent = widgetManager.get({ target: "parent", type: "opacity" });
+      parent.setProp(key, val);
+      widget.addChildTo(parent);
+    }
+
+    // Flex isCenter
+    else if (isCenter({ key, val, decls })) {
+      console.log(2222);
+      const parent = widgetManager.get({ target: "parent", type: "center" });
       parent.setProp(key, val);
       widget.addChildTo(parent);
     }
@@ -56,7 +65,7 @@ const parseFlutter = decls => {
       widget.addChildTo(parent);
     }
 
-    /// child widget ---------------
+    /// child widget ---------------------------------------------
     // text
     else if (isText(key)) {
       const child = widgetManager.get({ target: "child", type: "text" });
@@ -69,7 +78,7 @@ const parseFlutter = decls => {
       widget.addChild(child);
     }
 
-    /// self widget ---------------
+    /// self widget ---------------------------------------------
     // decoration
     else if (isDecoration(key)) {
       widget.setDecoration(key, val);

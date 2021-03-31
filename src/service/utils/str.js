@@ -5,4 +5,8 @@ const addQuotes = str => {
   return str;
 };
 
-export default addQuotes;
+const getLast = str => {
+  return str.charAt(str.length - 1);
+};
+
+export { addQuotes, getLast };

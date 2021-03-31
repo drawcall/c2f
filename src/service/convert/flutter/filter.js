@@ -58,6 +58,15 @@ const isFlex = ({ key, val, decls }) => {
   return false;
 };
 
+const isCenter = ({ key, val, decls }) => {
+  if (isFlex({ key, val, decls })) {
+    const alignItems = decls.getVal("align-items");
+    const justifyContent = decls.getVal("justify-content");
+    if (alignItems === "center" && justifyContent === "center") return true;
+  }
+  return false;
+};
+
 const isRow = ({ key, val, decls }) => {
   if (isFlex({ key, val, decls })) {
     const direction = decls.getVal("flex-direction", "row");
@@ -87,5 +96,6 @@ export {
   isTransform,
   isFlex,
   isColumn,
+  isCenter,
   isRow
 };

@@ -15,8 +15,10 @@ import {
   OPACITY,
   POSITIONED,
   TRANSFORM,
-  REAL_SPACE
+  REAL_SPACE,
+  CENTER
 } from "./template";
+
 class Widget {
   constructor(type) {
     this.children = [];
@@ -44,6 +46,10 @@ class Widget {
 
       case "text":
         this.template = TEXT;
+        break;
+
+      case "center":
+        this.template = CENTER;
         break;
 
       case "row":

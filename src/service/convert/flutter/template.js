@@ -27,7 +27,6 @@ const TEXT = `
 const CENTER = `
  Center(
   ${CHILDREN}
-  ${PROP}
 ),
 `.trim();
 

@@ -3,14 +3,14 @@ import toFColor from "./transform/color";
 import toFBorder from "./transform/border";
 import toBoxShadow from "./transform/boxshadow";
 import toFTransform from "./transform/transform";
-import toFFontWeight from "./transform/fontweight";
+import toFFontWeight from "./transform/font-weight";
+import toFFontFamily from "./transform/font-family";
 import toConstraints from "./transform/constraints";
 import toFBorderRadius from "./transform/border-radius";
 import toAxisAlignment from "./transform/axis-alignment";
 import toFMarginPadding from "./transform/marginpadding";
 import toDecorationImage from "./transform/background-image";
 import SPLIT_MAPPING from "../css/split-mapping";
-import addQuotes from "../../utils/str";
 import toCamel from "../../utils/camel";
 
 const transform = (key, val, decls) => {
@@ -83,7 +83,7 @@ const transform = (key, val, decls) => {
       break;
 
     case match(key, "font-family"):
-      result["val"] = addQuotes(val);
+      result["val"] = toFFontFamily(val);
       break;
 
     // padding margin ------------------------
