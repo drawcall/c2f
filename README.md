@@ -2,9 +2,9 @@
   <img src="https://raw.githubusercontent.com/tnfe/c2f/master/logo/c2f.png" />
 </p>
 
-C2F is an interesting little project. I hope to find a way to convert css styles to flutter styles. I believe many web developers will like it. [https://tnfe.github.io/c2f/](https://tnfe.github.io/c2f/)
+C2F is an interesting little project. I hope to find a way to convert css styles to flutter styles. I believe many web developers will like it. [https://tnfe.github.io/c2f/](https://flutterkit.github.io/c2f/)
 
-![](https://github.com/tnfe/c2f/blob/master/logo/map.png?raw=true)
+![](https://github.com/flutterkit/c2f/blob/master/logo/map.png?raw=true)
 
 ## Statement
 
