@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tnfe/c2f/master/logo/c2f.png" />
+  <img src="https://raw.githubusercontent.com/flutterkit/c2f/master/logo/c2f.png" />
 </p>
 
-C2F is an interesting little project. I hope to find a way to convert css styles to flutter styles. I believe many web developers will like it. [https://tnfe.github.io/c2f/](https://flutterkit.github.io/c2f/)
+C2F is an interesting little project. I hope to find a way to convert css styles to flutter styles. I believe many web developers will like it. [https://flutterkit.github.io/c2f/](https://flutterkit.github.io/c2f/)
 
 ![](https://github.com/flutterkit/c2f/blob/master/logo/map.png?raw=true)
 
@@ -49,4 +49,4 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 ## License
-c2f is licensed under MIT license. View license. [https://github.com/tnfe/c2f/blob/master/LICENSE](https://github.com/tnfe/c2f/blob/master/LICENSE)
+c2f is licensed under MIT license. View license. [https://github.com/flutterkit/c2f/blob/master/LICENSE](https://github.com/flutterkit/c2f/blob/master/LICENSE)
