@@ -18,11 +18,11 @@ I want to use `postcss` to do a lot of things, we can get a style attribute and 
 
 ## Run and build
 
-#### `cd ./source`
+#### Clone the project
 
-Enter source folder
+`git clone https://github.com/drawcall/c2f.git`
 
-#### `npm start`
+#### Startup project
 
 ```shell
 npm i
