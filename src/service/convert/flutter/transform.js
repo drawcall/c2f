@@ -54,14 +54,17 @@ const transform = (key, val, decls) => {
 
     // text decoration style ------------------------
     case match(key, "text-decoration-line"):
+      result["key"] = "decoration";
       result["val"] = `TextDecoration.${toCamel(val)}`;
       break;
 
     case match(key, "text-decoration-color"):
+      result["key"] = `decorationColor`;
       result["val"] = toFColor(val);
       break;
 
     case match(key, "text-decoration-style"):
+      result["key"] = `decorationStyle`;
       result["val"] = `TextDecorationStyle.${val}`;
       break;
 
@@ -175,17 +178,17 @@ const inSplitStyles = (key, sign) => {
 //	transfrom camel key
 //
 /////////////////////////////////////////////////////////
-const transfromToCamelKey = key => {
+const transfromToCamelKey = (key) => {
   if (key === "letter-spacing") {
     return toCamel(key);
   }
 
-  if (/^font-[a-zA-Z]+/gi.test(key) || /^text-[a-zA-Z]+/gi.test(key)) {
-    return toCamel(key);
+  if (/^text-decoration.*/gi.test(key)) {
+    return null;
   }
 
-  if (/^text-decoration.*/gi.test(key)) {
-    return toCamel(key.replace(/^text-/gi, ""));
+  if (/^font-[a-zA-Z]+/gi.test(key) || /^text-[a-zA-Z]+/gi.test(key)) {
+    return toCamel(key);
   }
 
   return null;
