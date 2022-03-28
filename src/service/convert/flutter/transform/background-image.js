@@ -1,7 +1,7 @@
 import toColor from "./color";
 import toCamel from "../../../utils/camel";
 import { toNameVal } from "../../../utils/pos";
-import { toRound, toRadian } from "../../../utils/num";
+import { toRound, toRadian, toNum } from "../../../utils/num";
 
 const toDecorationImage = (val, decls) => {
   val = String(val);
@@ -23,6 +23,7 @@ const toDecorationImage = (val, decls) => {
 
 const createLineGradient = (val, decls) => {
   const colors = [];
+  const steps = [];
   let end;
   const arr = val
     .replace(/^[a-zA-Z]+-gradient/gi, "")
@@ -33,8 +34,19 @@ const createLineGradient = (val, decls) => {
   if (arr.length > 2) {
     const d = arr[0];
     end = d.replace("to", "").trim();
+    let stepsVal, colorsVal;
+
     for (let i = 1; i < arr.length; i++) {
-      colors.push(toColor(arr[i]));
+      const color = String(arr[i]).trim();
+      if (/\d{0,2}%$/gi.test(color)) {
+        colorsVal = color.split(" ")[0];
+        stepsVal = toNum(color.split(" ")[1]) / 100;
+        steps.push(stepsVal);
+      } else {
+        colorsVal = color;
+      }
+
+      colors.push(toColor(colorsVal));
     }
   } else {
     end = "bottom";
@@ -44,12 +56,23 @@ const createLineGradient = (val, decls) => {
     colors.push(toColor(c2));
   }
 
-  return `
+  let result = `
 LinearGradient(
   begin: Alignment(0.0, 0.0),
   end: ${getEnd(end)},
   colors: [${colors}],
 )`.trim();
+
+  if (steps.length) {
+    result = result.replace(
+      /\)$/gi,
+      `
+  steps: [${steps}]
+)`
+    );
+  }
+
+  return result;
 };
 
 const createRadialGradient = (val, decls) => {
@@ -71,7 +94,7 @@ RadialGradient(
 )`.trim();
 };
 
-const getEnd = end => {
+const getEnd = (end) => {
   let angle;
   let n = 20;
   if (end === "right") {
